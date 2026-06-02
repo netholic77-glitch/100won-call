@@ -1,0 +1,28 @@
+{
+  "name": "백원콜 — 100원·행복택시 호출",
+  "short_name": "백원콜",
+  "description": "우리 동네 100원·행복택시를 큰 글씨·음성안내로 한 번에 부르는 고령자 친화 전화 호출 도우미",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff7ed",
+  "theme_color": "#f59e0b",
+  "lang": "ko-KR",
+  "dir": "ltr",
+  "categories": ["lifestyle", "travel", "utilities"],
+  "icons": [
+    {
+      "src": "/icon_192.png?v=1",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon_512.png?v=1",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

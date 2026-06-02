@@ -1,0 +1,12 @@
+{
+  "appId": "kr.baekwoncall.app",
+  "appName": "백원콜",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true
+  }
+}

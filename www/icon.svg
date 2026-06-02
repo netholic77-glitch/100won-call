@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- 택시 본체 -->
+  <g transform="translate(256 268)">
+    <rect x="-150" y="-30" width="300" height="120" rx="28" fill="#fff7ed"/>
+    <path d="M-120 -30 L-78 -96 Q-70 -110 -52 -110 L52 -110 Q70 -110 78 -96 L120 -30 Z" fill="#fff7ed"/>
+    <rect x="-72" y="-92" width="60" height="56" rx="8" fill="#7c2d12"/>
+    <rect x="12" y="-92" width="60" height="56" rx="8" fill="#7c2d12"/>
+    <!-- 택시 표시등 -->
+    <rect x="-30" y="-138" width="60" height="30" rx="8" fill="#7c2d12"/>
+    <text x="0" y="-115" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#fbbf24" text-anchor="middle">TAXI</text>
+    <!-- 바퀴 -->
+    <circle cx="-92" cy="90" r="30" fill="#1f2937"/>
+    <circle cx="-92" cy="90" r="13" fill="#9ca3af"/>
+    <circle cx="92" cy="90" r="30" fill="#1f2937"/>
+    <circle cx="92" cy="90" r="13" fill="#9ca3af"/>
+    <!-- 체크무늬 띠 -->
+    <g fill="#1f2937">
+      <rect x="-150" y="22" width="30" height="18"/>
+      <rect x="-90" y="22" width="30" height="18"/>
+      <rect x="-30" y="22" width="30" height="18"/>
+      <rect x="30" y="22" width="30" height="18"/>
+      <rect x="90" y="22" width="30" height="18"/>
+      <rect x="-120" y="40" width="30" height="18"/>
+      <rect x="-60" y="40" width="30" height="18"/>
+      <rect x="0" y="40" width="30" height="18"/>
+      <rect x="60" y="40" width="30" height="18"/>
+      <rect x="120" y="40" width="30" height="18"/>
+    </g>
+  </g>
+  <!-- 100원 동전 -->
+  <g transform="translate(372 150)">
+    <circle r="56" fill="#fde68a" stroke="#7c2d12" stroke-width="6"/>
+    <text y="14" font-family="Arial, sans-serif" font-size="40" font-weight="900" fill="#7c2d12" text-anchor="middle">100</text>
+  </g>
+</svg>

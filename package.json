@@ -1,0 +1,20 @@
+{
+  "name": "baekwon-call",
+  "version": "0.1.0",
+  "description": "백원콜 — 농어촌 100원·행복택시 전화 호출 도우미 (큰 글씨·음성안내·보호자 위치문자)",
+  "scripts": {
+    "serve": "python -m http.server 8531 --directory www",
+    "cap:init": "npx cap init 백원콜 kr.baekwoncall.app --web-dir=www",
+    "cap:add": "npx cap add android",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android",
+    "build:apk": "npm run cap:sync && npm run cap:open"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/core": "^6.1.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.0"
+  }
+}

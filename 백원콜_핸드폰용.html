@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f59e0b" />
+  <meta name="referrer" content="no-referrer" />
+  <!-- CSP: 동일 출처만 허용. 외부 fetch·script·iframe 차단. tel:/sms: 전화·문자 호출은 허용. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none';" />
+  <title>백원콜 — 100원·행복택시 호출</title>
+  <link rel="apple-touch-icon" href="data:image/png;base64,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" />
+  <style>
+/* 백원콜 — 고령자 친화 스타일 (큰 글씨·고대비·큰 터치영역) */
+:root {
+  --orange: #f59e0b;
+  --orange-d: #d97706;
+  --green: #16a34a;
+  --green-d: #15803d;
+  --blue: #2563eb;
+  --ink: #1f2937;
+  --paper: #fff7ed;
+  --card: #ffffff;
+  --line: #e5e7eb;
+  --muted: #6b7280;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0; padding: 0;
+  font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 19px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── 인트로 ── */
+.intro {
+  position: fixed; inset: 0; z-index: 100;
+  background: linear-gradient(160deg, #fde68a 0%, #fbbf24 55%, #f59e0b 100%);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .4s ease;
+}
+.intro.hide { opacity: 0; pointer-events: none; }
+.intro-content { text-align: center; padding: 24px; }
+.intro-emoji { font-size: 84px; }
+.intro-title { font-size: 56px; margin: 8px 0 4px; color: #7c2d12; font-weight: 900; }
+.intro-slogan { font-size: 24px; color: #7c2d12; margin: 0 0 32px; font-weight: 700; }
+.btn-start {
+  font-size: 28px; font-weight: 800; color: #fff; background: var(--green);
+  border: none; border-radius: 18px; padding: 20px 48px; cursor: pointer;
+  box-shadow: 0 6px 0 var(--green-d);
+}
+.btn-start:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--green-d); }
+.intro-foot { margin-top: 28px; font-size: 15px; color: #92400e; }
+
+/* ── 헤더 ── */
+.app-header {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--orange); color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.app-header h1 { font-size: 26px; margin: 0; font-weight: 900; }
+.app-header .sub { font-size: 14px; opacity: .95; }
+.header-voice {
+  font-size: 18px; font-weight: 800; color: var(--orange-d); background: #fff;
+  border: none; border-radius: 12px; padding: 10px 14px; cursor: pointer;
+}
+.header-voice[aria-pressed="false"] { opacity: .5; text-decoration: line-through; }
+
+/* ── 본문 ── */
+#app { max-width: 560px; margin: 0 auto; padding: 16px 14px 60px; }
+.block { margin-bottom: 16px; }
+
+/* 큰 버튼 */
+.bigbtn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-decoration: none; color: #fff; border-radius: 22px;
+  padding: 26px 16px; text-align: center; cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,.18); transition: transform .08s;
+}
+.bigbtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.bigbtn-emoji { font-size: 52px; line-height: 1; }
+.bigbtn-label { font-size: 32px; font-weight: 900; margin-top: 8px; }
+.bigbtn-sub { font-size: 16px; font-weight: 600; margin-top: 6px; opacity: .95; }
+
+.bigbtn-call { background: var(--green); }
+.bigbtn-call.ready { background: var(--green); }
+.bigbtn-call.notready { background: #9ca3af; box-shadow: 0 6px 0 #6b7280; }
+
+/* 위치 말하기 버튼 */
+.speakbtn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 100%; color: #fff; background: var(--blue); border: none; border-radius: 22px;
+  padding: 22px 16px; text-align: center; cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,.18); transition: transform .08s;
+}
+.speakbtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.speakbtn-emoji { font-size: 46px; line-height: 1; }
+.speakbtn-label { font-size: 28px; font-weight: 900; margin-top: 8px; }
+.speakbtn-sub { font-size: 15px; font-weight: 600; margin-top: 6px; opacity: .95; line-height: 1.4; }
+
+/* 한 달 주기 재확인 알림 */
+.reminder {
+  background: #fffbeb; border: 2px solid var(--orange); border-radius: 16px;
+  padding: 16px 14px; margin-bottom: 16px;
+}
+.reminder-text { font-size: 18px; font-weight: 700; color: #92400e; line-height: 1.5; margin-bottom: 12px; }
+.reminder-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.reminder-btns button { font-size: 18px; font-weight: 800; border: none; border-radius: 12px; padding: 14px; cursor: pointer; }
+.reminder-ok { background: var(--green); color: #fff; box-shadow: 0 4px 0 var(--green-d); }
+.reminder-fix { background: var(--orange); color: #fff; box-shadow: 0 4px 0 var(--orange-d); }
+.reminder-btns button:active { transform: translateY(3px); box-shadow: none; }
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.bigbtn-guardian { background: var(--blue); }
+.bigbtn-loc { background: var(--orange-d); }
+.row2 .bigbtn-label { font-size: 24px; }
+.row2 .bigbtn-emoji { font-size: 42px; }
+
+/* 카드 */
+.card {
+  background: var(--card); border: 2px solid var(--line); border-radius: 18px;
+  padding: 18px 16px; margin-bottom: 16px;
+}
+.card-title { font-size: 23px; font-weight: 800; margin: 0 0 8px; }
+.card-help { font-size: 16px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
+
+.field { display: block; margin-bottom: 14px; }
+.field > span { display: block; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.field input, .field select {
+  width: 100%; font-size: 21px; padding: 14px 12px;
+  border: 2px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink);
+}
+.field input:focus, .field select:focus { outline: 3px solid var(--orange); border-color: var(--orange); }
+
+.btn-save {
+  width: 100%; font-size: 22px; font-weight: 800; color: #fff; background: var(--orange);
+  border: none; border-radius: 14px; padding: 16px; cursor: pointer; margin-top: 4px;
+  box-shadow: 0 4px 0 var(--orange-d);
+}
+.btn-save:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--orange-d); }
+
+.saved-line {
+  margin-top: 14px; padding: 14px; background: #ecfdf5; border: 2px solid #86efac;
+  border-radius: 12px; font-size: 18px; font-weight: 700; color: var(--green-d);
+}
+
+.region-note {
+  margin: -2px 0 14px; padding: 14px; border-radius: 12px; font-size: 16px; line-height: 1.5;
+}
+.region-note.yes { background: #ecfdf5; border: 2px solid #86efac; color: #166534; }
+.region-note.no { background: #fef2f2; border: 2px solid #fecaca; color: #991b1b; }
+
+/* 자주 가는 곳 */
+.place-add { display: flex; gap: 8px; margin-bottom: 12px; }
+.place-add input { flex: 1; font-size: 19px; padding: 14px 12px; border: 2px solid var(--line); border-radius: 12px; }
+.btn-add { font-size: 19px; font-weight: 800; color: #fff; background: var(--green); border: none; border-radius: 12px; padding: 0 18px; cursor: pointer; white-space: nowrap; }
+.place-list { list-style: none; margin: 0; padding: 0; }
+.place-list li {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff; border: 2px solid var(--line); border-radius: 12px;
+  padding: 12px 14px; margin-bottom: 10px; font-size: 19px;
+}
+.place-list .place-text { flex: 1; font-weight: 700; }
+.place-list button {
+  font-size: 17px; border: none; border-radius: 10px; padding: 10px 12px; cursor: pointer; font-weight: 700;
+}
+.place-list .read { background: #dbeafe; color: var(--blue); }
+.place-list .del { background: #fee2e2; color: #b91c1c; }
+.place-empty { color: var(--muted); font-size: 16px; text-align: center; padding: 8px 0; }
+
+/* 안내전화 */
+.infoline {
+  display: block; text-decoration: none; color: var(--ink);
+  background: #fff; border: 2px solid var(--line); border-radius: 12px;
+  padding: 14px; margin-bottom: 10px; font-size: 19px;
+}
+.infoline b { font-size: 24px; color: var(--orange-d); margin-right: 8px; }
+.infoline span { color: var(--muted); font-size: 15px; }
+
+/* 푸터 */
+.footer-note { margin-top: 8px; font-size: 14px; color: var(--muted); line-height: 1.6; }
+.footer-note a { color: var(--blue); }
+
+/* 토스트 */
+#toast {
+  position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%) translateY(20px);
+  background: #111827; color: #fff; padding: 14px 22px; border-radius: 30px;
+  font-size: 18px; font-weight: 700; opacity: 0; pointer-events: none; transition: all .3s; z-index: 50;
+  max-width: 90%; text-align: center;
+}
+#toast.show { opacity: .96; transform: translateX(-50%) translateY(0); }
+
+</style>
+</head>
+<body>
+  <!-- 인트로 화면 -->
+  <div id="intro" class="intro">
+    <div class="intro-content">
+      <div class="intro-emoji">🚕</div>
+      <h1 class="intro-title">백원콜</h1>
+      <p class="intro-slogan">우리 동네 100원·행복택시<br>한 번에 부르세요</p>
+      <button id="btn_start" class="btn-start">시작하기 ▶</button>
+      <p class="intro-foot">v0.1 · 전화 호출 도우미 (큰 글씨·음성안내)</p>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <div class="app-header-text">
+      <h1>🚕 백원콜</h1>
+      <div class="sub">100원·행복택시 호출 도우미</div>
+    </div>
+    <button id="btn_voice" class="header-voice" type="button" aria-pressed="true" aria-label="음성 안내 켜기 끄기">🔊 음성</button>
+  </header>
+
+  <main id="app">
+
+    <!-- 한 달 주기 번호 재확인 알림 -->
+    <div id="reminder" class="reminder" hidden>
+      <div class="reminder-text" id="reminder_text"></div>
+      <div class="reminder-btns">
+        <button id="btn_reminder_ok" class="reminder-ok" type="button">번호 그대로예요</button>
+        <button id="btn_reminder_fix" class="reminder-fix" type="button">번호 고치기</button>
+      </div>
+    </div>
+
+    <!-- ① 택시 부르기 (메인 큰 버튼) -->
+    <section class="block">
+      <a id="btn_call_taxi" class="bigbtn bigbtn-call" href="#setup" role="button">
+        <span class="bigbtn-emoji">📞</span>
+        <span class="bigbtn-label">택시 부르기</span>
+        <span class="bigbtn-sub" id="call_taxi_sub">먼저 우리 동네 택시 번호를 저장하세요</span>
+      </a>
+    </section>
+
+    <!-- ①-2 기사님께 위치 또박또박 말하기 -->
+    <section class="block">
+      <button id="btn_speak_loc" class="speakbtn" type="button">
+        <span class="speakbtn-emoji">📢</span>
+        <span class="speakbtn-label">기사님께 내 위치 말하기</span>
+        <span class="speakbtn-sub">전화 연결 후 <b>스피커폰</b>으로 누르면, 위치를 또박또박 읽어 줍니다</span>
+      </button>
+    </section>
+
+    <!-- ② 보호자 호출 -->
+    <section class="block">
+      <div class="row2">
+        <a id="btn_call_guardian" class="bigbtn bigbtn-guardian" href="#guardian" role="button">
+          <span class="bigbtn-emoji">👨‍👩‍👧</span>
+          <span class="bigbtn-label">보호자<br>전화</span>
+        </a>
+        <a id="btn_sms_location" class="bigbtn bigbtn-loc" href="#guardian" role="button">
+          <span class="bigbtn-emoji">📍</span>
+          <span class="bigbtn-label">내 위치<br>문자보내기</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ③ 내 택시 번호 설정 -->
+    <section class="card" id="setup">
+      <h2 class="card-title">🚕 내 택시 번호</h2>
+      <p class="card-help">우리 동네 100원·행복택시 콜센터 번호를 한 번만 저장하면, 위 <b>택시 부르기</b> 버튼으로 바로 전화가 걸립니다.</p>
+
+      <label class="field"><span>① 광역시·도</span>
+        <select id="province_select"><option value="">선택하세요</option></select></label>
+      <label class="field"><span>② 시·군·구</span>
+        <select id="region_select"><option value="">위에서 먼저 선택</option></select></label>
+
+      <div class="region-note" id="region_note" hidden></div>
+
+      <label class="field"><span>③ 택시 콜센터 전화번호</span>
+        <input type="tel" id="taxi_number" inputmode="tel" placeholder="예) 0312345678 (- 없이)" maxlength="20" /></label>
+      <label class="field"><span>택시 이름 (선택)</span>
+        <input type="text" id="taxi_label" maxlength="20" placeholder="예) 우리면 행복택시" /></label>
+      <button id="btn_save_taxi" class="btn-save" type="button">💾 택시 번호 저장</button>
+      <div class="saved-line" id="saved_taxi" hidden></div>
+    </section>
+
+    <!-- ③-2 내가 탈 위치 (기사님께 음성으로 불러줄 주소) -->
+    <section class="card" id="pickup_card">
+      <h2 class="card-title">📍 내가 탈 위치</h2>
+      <p class="card-help">택시를 탈 곳(우리 집)을 적어두면, 위 <b>📢 기사님께 내 위치 말하기</b> 버튼으로 기계 목소리가 또박또박 읽어 줍니다. 말로 설명하기 어려우실 때 도움이 돼요.</p>
+      <label class="field"><span>주소·표시물 (집 위치)</span>
+        <input type="text" id="pickup_input" maxlength="80" placeholder="예) ○○면 ○○리 12-3, 파란 대문 집, 마을회관 옆" /></label>
+      <button id="btn_save_pickup" class="btn-save" type="button">💾 내 위치 저장</button>
+      <div class="saved-line" id="saved_pickup" hidden></div>
+    </section>
+
+    <!-- ④ 보호자 설정 -->
+    <section class="card" id="guardian">
+      <h2 class="card-title">👨‍👩‍👧 보호자</h2>
+      <p class="card-help">가족 등 보호자 번호를 저장하면 한 번에 전화하거나, 내 현재 위치를 문자로 보낼 수 있어요.</p>
+      <label class="field"><span>보호자 이름</span>
+        <input type="text" id="guardian_name" maxlength="20" placeholder="예) 큰딸" /></label>
+      <label class="field"><span>보호자 전화번호</span>
+        <input type="tel" id="guardian_number" inputmode="tel" placeholder="예) 01012345678 (- 없이)" maxlength="20" /></label>
+      <button id="btn_save_guardian" class="btn-save" type="button">💾 보호자 저장</button>
+      <div class="saved-line" id="saved_guardian" hidden></div>
+    </section>
+
+    <!-- ⑤ 자주 가는 곳 -->
+    <section class="card" id="places">
+      <h2 class="card-title">📒 자주 가는 곳</h2>
+      <p class="card-help">병원·면사무소·장터 등 목적지를 적어두면, 택시 기사님께 보여주거나 음성으로 들려줄 수 있어요.</p>
+      <div class="place-add">
+        <input type="text" id="place_input" maxlength="40" placeholder="예) 군청 앞 ○○내과" />
+        <button id="btn_add_place" class="btn-add" type="button">＋ 추가</button>
+      </div>
+      <ul class="place-list" id="place_list"></ul>
+    </section>
+
+    <!-- ⑥ 정부 안내번호 -->
+    <section class="card">
+      <h2 class="card-title">☎ 정부 안내전화</h2>
+      <p class="card-help">택시 번호를 모를 때, 아래로 전화해 우리 지역 행복택시 안내를 받으세요.</p>
+      <a class="infoline" href="tel:120"><b>120</b> 우리 시·군청 민원 안내 <span>(지역번호+120)</span></a>
+      <a class="infoline" href="tel:110"><b>110</b> 정부민원 통합 안내</a>
+    </section>
+
+    <section class="footer-note">
+      <p>본 앱은 전화 <b>호출 도우미</b>입니다. 실제 배차·요금은 각 지역 택시 운영 규정을 따릅니다. 운영 명칭(행복택시·희망택시·마중택시·100원택시)과 번호·이용조건은 지자체마다 다르며 매년 바뀝니다. 정확한 번호는 거주 읍·면사무소 또는 시·군청 교통과에 확인하세요.</p>
+      <p><a href="/privacy_policy.html">개인정보처리방침</a> · 입력 정보는 내 휴대폰에만 저장됩니다.</p>
+    </section>
+  </main>
+
+  <div id="toast" aria-live="polite"></div>
+
+  <script>window.__REGIONS__ = {
+  "_meta": {
+    "version": "0.1",
+    "purpose": "전국 시·군별 100원택시/행복택시 운영 안내 디렉터리. 고령자 호출 도우미용.",
+    "important": "본 디렉터리는 운영 '여부 추정'만 제공하며 콜센터 전화번호는 포함하지 않습니다. 지자체별 명칭(행복택시·희망택시·마중택시·100원택시 등)과 번호·운영조건은 매년 다르므로, 거주 읍·면사무소 또는 시·군청 교통과에 확인 후 '내 택시 번호'에 직접 저장해 사용하세요.",
+    "disclaimer": "hasProgram=true는 카테고리 기반 추정입니다. 동일 시·군에서도 동 지역은 미운영일 수 있습니다.",
+    "info_lines": [
+      {
+        "label": "정부민원안내 (국번없이)",
+        "tel": "110"
+      },
+      {
+        "label": "지자체 대표 민원 (지역번호+120)",
+        "tel": "120"
+      }
+    ]
+  },
+  "provinces": {
+    "서울특별시": [
+      {
+        "name": "강남구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "강동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "강북구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "강서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "관악구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "광진구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "구로구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "금천구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "노원구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "도봉구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동대문구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동작구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "마포구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "서대문구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "서초구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "성동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "성북구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "송파구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "양천구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "영등포구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "용산구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "은평구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "종로구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "중구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "중랑구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "부산광역시": [
+      {
+        "name": "강서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "금정구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "기장군",
+        "category": "광역시군",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "남구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동래구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "부산진구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "북구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "사상구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "사하구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "수영구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "연제구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "영도구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "중구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "해운대구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "대구광역시": [
+      {
+        "name": "군위군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "남구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "달서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "달성군",
+        "category": "광역시군",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "북구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "수성구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "중구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "인천광역시": [
+      {
+        "name": "강화군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "계양구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "남동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "미추홀구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "부평구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "연수구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "옹진군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "중구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "광주광역시": [
+      {
+        "name": "광산구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "남구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "북구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "대전광역시": [
+      {
+        "name": "대덕구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "서구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "유성구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "중구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "울산광역시": [
+      {
+        "name": "남구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "동구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "북구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "울주군",
+        "category": "광역시군",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "중구",
+        "category": "도시자치구",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "세종특별자치시": [
+      {
+        "name": "세종시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      }
+    ],
+    "경기도": [
+      {
+        "name": "가평군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "고양시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "과천시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "광명시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "광주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "구리시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "군포시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "김포시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "남양주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "동두천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "부천시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "성남시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "수원시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "시흥시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "안산시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "안성시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "안양시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "양주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "양평군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "여주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "연천군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "오산시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "용인시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "의왕시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "의정부시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "이천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "파주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "평택시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "포천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "하남시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "화성시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      }
+    ],
+    "강원특별자치도": [
+      {
+        "name": "강릉시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "고성군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "동해시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "삼척시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "속초시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "양구군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "양양군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "영월군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "원주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "인제군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "정선군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "철원군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "춘천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "태백시",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "평창군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "홍천군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "화천군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "횡성군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      }
+    ],
+    "충청북도": [
+      {
+        "name": "괴산군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "단양군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "보은군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "영동군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "옥천군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "음성군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "제천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "증평군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "진천군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "청주시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "충주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      }
+    ],
+    "충청남도": [
+      {
+        "name": "계룡시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "공주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "금산군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "논산시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "당진시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "보령시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "부여군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "서산시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "서천군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "아산시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "예산군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "천안시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "청양군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "태안군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "홍성군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      }
+    ],
+    "전북특별자치도": [
+      {
+        "name": "고창군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "군산시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "김제시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "남원시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "무주군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "부안군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "순창군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "완주군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "익산시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "임실군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "장수군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "전주시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "정읍시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "진안군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      }
+    ],
+    "전라남도": [
+      {
+        "name": "강진군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "고흥군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "곡성군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "광양시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "구례군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "나주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "담양군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "목포시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "무안군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "보성군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "순천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "신안군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "여수시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "영광군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "영암군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "완도군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "장성군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "장흥군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "진도군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "함평군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "해남군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "화순군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      }
+    ],
+    "경상북도": [
+      {
+        "name": "경산시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "경주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "고령군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "구미시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "김천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "문경시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "봉화군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "상주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "성주군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "안동시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "영덕군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "영양군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "영주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "영천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "예천군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "울릉군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "울진군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "의성군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "청도군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "청송군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "칠곡군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "포항시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      }
+    ],
+    "경상남도": [
+      {
+        "name": "거제시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "거창군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "고성군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "김해시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "남해군",
+        "category": "도서군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "밀양시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "사천시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "산청군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "양산시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "의령군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "진주시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "창녕군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "창원시",
+        "category": "도시시",
+        "hasProgram": false,
+        "note": "대도시·동 지역 — 일반택시/콜택시 이용"
+      },
+      {
+        "name": "통영시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "하동군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "함안군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "함양군",
+        "category": "산간군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      },
+      {
+        "name": "합천군",
+        "category": "농촌군",
+        "hasProgram": true,
+        "note": "100원·행복택시 운영 가능성 높음 (읍·면 단위)"
+      }
+    ],
+    "제주특별자치도": [
+      {
+        "name": "서귀포시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      },
+      {
+        "name": "제주시",
+        "category": "도농복합시",
+        "hasProgram": true,
+        "note": "읍·면 지역 행복택시 운영 (동 지역 제외)"
+      }
+    ]
+  }
+};</script>
+  <script>
+/* 백원콜 — 100원·행복택시 호출 도우미
+   - 100% 기기 내부 동작. 외부 서버 전송 없음. 저장은 localStorage.
+   - 전화: tel: / 문자: sms: / 위치: navigator.geolocation
+   - 음성 안내: Web Speech API (speechSynthesis, ko-KR)
+*/
+(function () {
+  "use strict";
+
+  var LS = {
+    taxiNum: "bw_taxi_num",
+    taxiLabel: "bw_taxi_label",
+    province: "bw_province",
+    region: "bw_region",
+    gName: "bw_guardian_name",
+    gNum: "bw_guardian_num",
+    places: "bw_places",
+    voice: "bw_voice",
+    checkedAt: "bw_taxi_checked_at",
+    pickup: "bw_pickup",
+  };
+
+  var REMIND_DAYS = 30;
+
+  var $ = function (id) { return document.getElementById(id); };
+  function get(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function onlyDigits(s) { return (s || "").replace(/[^0-9+]/g, ""); }
+
+  var REGIONS = null;
+  var voiceOn = get(LS.voice) !== "off";
+
+  /* ── 음성 안내 ── */
+  function speak(text) {
+    if (!voiceOn) return;
+    sayNow(text, 0.95, 1);
+  }
+  // 음성 토글과 무관하게 항상 또박또박 읽음(위치 안내용). repeat회 반복.
+  function sayNow(text, rate, repeat) {
+    if (!("speechSynthesis" in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      for (var i = 0; i < (repeat || 1); i++) {
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = "ko-KR";
+        u.rate = rate || 0.95;
+        window.speechSynthesis.speak(u);
+      }
+    } catch (e) {}
+  }
+
+  /* ── 토스트 ── */
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2600);
+  }
+
+  /* ── 인트로 ── */
+  $("btn_start").addEventListener("click", function () {
+    $("intro").classList.add("hide");
+    setTimeout(function () { $("intro").style.display = "none"; }, 400);
+    speak("백원콜입니다. 택시 부르기 버튼을 누르세요.");
+  });
+
+  /* ── 음성 토글 ── */
+  function renderVoiceBtn() {
+    var b = $("btn_voice");
+    b.setAttribute("aria-pressed", voiceOn ? "true" : "false");
+    b.textContent = voiceOn ? "🔊 음성" : "🔇 음성";
+  }
+  $("btn_voice").addEventListener("click", function () {
+    voiceOn = !voiceOn;
+    set(LS.voice, voiceOn ? "on" : "off");
+    renderVoiceBtn();
+    if (voiceOn) speak("음성 안내를 켰습니다.");
+  });
+
+  /* ── 택시 부르기 ── */
+  function renderTaxiState() {
+    var num = get(LS.taxiNum);
+    var label = get(LS.taxiLabel);
+    var btn = $("btn_call_taxi");
+    var sub = $("call_taxi_sub");
+    var saved = $("saved_taxi");
+    if (num) {
+      btn.classList.add("ready"); btn.classList.remove("notready");
+      btn.setAttribute("href", "tel:" + num);
+      sub.textContent = (label ? label + " · " : "") + formatNum(num);
+      saved.hidden = false;
+      saved.innerHTML = "저장됨: <b>" + escapeHtml(label || "내 택시") + "</b> " + formatNum(num);
+    } else {
+      btn.classList.add("notready"); btn.classList.remove("ready");
+      btn.setAttribute("href", "#setup");
+      sub.textContent = "먼저 우리 동네 택시 번호를 저장하세요";
+      saved.hidden = true;
+    }
+  }
+  function formatNum(n) {
+    return (n || "").replace(/(\d{2,4})(\d{3,4})(\d{4})$/, "$1-$2-$3");
+  }
+  function escapeHtml(s) {
+    return (s || "").replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+
+  $("btn_call_taxi").addEventListener("click", function (e) {
+    var num = get(LS.taxiNum);
+    if (!num) {
+      e.preventDefault();
+      toast("먼저 아래에서 택시 번호를 저장하세요.");
+      speak("먼저 우리 동네 택시 번호를 저장하세요.");
+      document.getElementById("setup").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    speak("택시에 전화를 겁니다.");
+  });
+
+  /* ── 지역 선택 ── */
+  function fillProvinces() {
+    var sel = $("province_select");
+    Object.keys(REGIONS.provinces).forEach(function (p) {
+      var o = document.createElement("option");
+      o.value = p; o.textContent = p;
+      sel.appendChild(o);
+    });
+    var saved = get(LS.province);
+    if (saved && REGIONS.provinces[saved]) {
+      sel.value = saved;
+      fillRegions(saved);
+    }
+  }
+  function fillRegions(prov) {
+    var sel = $("region_select");
+    sel.innerHTML = '<option value="">선택하세요</option>';
+    if (!prov || !REGIONS.provinces[prov]) {
+      sel.innerHTML = '<option value="">위에서 먼저 선택</option>';
+      return;
+    }
+    REGIONS.provinces[prov].forEach(function (r) {
+      var o = document.createElement("option");
+      o.value = r.name; o.textContent = r.name;
+      sel.appendChild(o);
+    });
+    var savedR = get(LS.region);
+    if (savedR) {
+      sel.value = savedR;
+      showRegionNote(prov, savedR);
+    }
+  }
+  function showRegionNote(prov, name) {
+    var note = $("region_note");
+    var list = REGIONS.provinces[prov] || [];
+    var r = null;
+    for (var i = 0; i < list.length; i++) if (list[i].name === name) { r = list[i]; break; }
+    if (!r) { note.hidden = true; return; }
+    note.hidden = false;
+    if (r.hasProgram) {
+      note.className = "region-note yes";
+      note.innerHTML = "✅ <b>" + escapeHtml(name) + "</b> — " + escapeHtml(r.note) +
+        "<br>정확한 콜센터 번호는 읍·면사무소 또는 시·군청 교통과에 문의해 아래 ③에 저장하세요.";
+    } else {
+      note.className = "region-note no";
+      note.innerHTML = "🚫 <b>" + escapeHtml(name) + "</b> — 이 지역은 100원·행복택시 운영 정보가 <b>없습니다</b>." +
+        "<br>" + escapeHtml(r.note) +
+        "<br>대신 일반 콜택시 번호를 아래 ③에 저장해 사용하실 수 있어요.";
+    }
+  }
+  $("province_select").addEventListener("change", function () {
+    set(LS.province, this.value);
+    set(LS.region, "");
+    fillRegions(this.value);
+    $("region_note").hidden = true;
+  });
+  $("region_select").addEventListener("change", function () {
+    set(LS.region, this.value);
+    showRegionNote($("province_select").value, this.value);
+  });
+
+  /* ── 택시 번호 저장 ── */
+  $("btn_save_taxi").addEventListener("click", function () {
+    var num = onlyDigits($("taxi_number").value);
+    if (num.length < 3) { toast("전화번호를 바르게 입력하세요."); return; }
+    set(LS.taxiNum, num);
+    set(LS.taxiLabel, $("taxi_label").value.trim());
+    set(LS.checkedAt, String(Date.now()));
+    renderTaxiState();
+    hideReminder();
+    toast("택시 번호를 저장했어요.");
+    speak("택시 번호를 저장했습니다.");
+  });
+
+  /* ── 보호자 ── */
+  function renderGuardian() {
+    var name = get(LS.gName), num = get(LS.gNum);
+    var saved = $("saved_guardian");
+    var callBtn = $("btn_call_guardian");
+    if (num) {
+      callBtn.setAttribute("href", "tel:" + num);
+      saved.hidden = false;
+      saved.innerHTML = "저장됨: <b>" + escapeHtml(name || "보호자") + "</b> " + formatNum(num);
+    } else {
+      callBtn.setAttribute("href", "#guardian");
+      saved.hidden = true;
+    }
+  }
+  $("btn_save_guardian").addEventListener("click", function () {
+    var num = onlyDigits($("guardian_number").value);
+    if (num.length < 3) { toast("보호자 전화번호를 바르게 입력하세요."); return; }
+    set(LS.gNum, num);
+    set(LS.gName, $("guardian_name").value.trim());
+    renderGuardian();
+    toast("보호자를 저장했어요.");
+    speak("보호자를 저장했습니다.");
+  });
+  $("btn_call_guardian").addEventListener("click", function (e) {
+    if (!get(LS.gNum)) {
+      e.preventDefault();
+      toast("먼저 보호자 번호를 저장하세요.");
+      document.getElementById("guardian").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    speak("보호자에게 전화를 겁니다.");
+  });
+
+  /* ── 내 위치 문자 보내기 ── */
+  $("btn_sms_location").addEventListener("click", function (e) {
+    e.preventDefault();
+    var num = get(LS.gNum);
+    if (!num) {
+      toast("먼저 보호자 번호를 저장하세요.");
+      document.getElementById("guardian").scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+    if (!navigator.geolocation) {
+      sendSms(num, "지금 제 위치를 알려드립니다. (위치 확인 불가)");
+      return;
+    }
+    toast("내 위치를 확인하는 중…");
+    speak("내 위치를 확인하고 있습니다.");
+    navigator.geolocation.getCurrentPosition(
+      function (pos) {
+        var la = pos.coords.latitude.toFixed(6);
+        var ln = pos.coords.longitude.toFixed(6);
+        var map = "https://map.kakao.com/link/map/내위치," + la + "," + ln;
+        var body = "[백원콜] 지금 제 위치입니다.\n위도 " + la + ", 경도 " + ln + "\n지도: " + map;
+        sendSms(num, body);
+      },
+      function () {
+        sendSms(num, "[백원콜] 지금 제 위치를 알려드리려 했는데 위치 확인이 안 됩니다. 전화 부탁드려요.");
+        toast("위치 확인 실패 — 문자만 보냅니다.");
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+    );
+  });
+  function sendSms(num, body) {
+    var sep = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent) ? "&" : "?";
+    window.location.href = "sms:" + num + sep + "body=" + encodeURIComponent(body);
+  }
+
+  /* ── 자주 가는 곳 ── */
+  function getPlaces() {
+    try { return JSON.parse(get(LS.places) || "[]"); } catch (e) { return []; }
+  }
+  function savePlaces(arr) { set(LS.places, JSON.stringify(arr)); }
+  function renderPlaces() {
+    var ul = $("place_list");
+    var arr = getPlaces();
+    ul.innerHTML = "";
+    if (!arr.length) {
+      ul.innerHTML = '<li class="place-empty">아직 저장한 곳이 없어요. 위에 적고 ＋추가를 누르세요.</li>';
+      return;
+    }
+    arr.forEach(function (txt, i) {
+      var li = document.createElement("li");
+      var span = document.createElement("span");
+      span.className = "place-text"; span.textContent = txt;
+      var read = document.createElement("button");
+      read.className = "read"; read.textContent = "🔊 읽기";
+      read.addEventListener("click", function () { speak("목적지, " + txt); });
+      var del = document.createElement("button");
+      del.className = "del"; del.textContent = "🗑";
+      del.addEventListener("click", function () {
+        var a = getPlaces(); a.splice(i, 1); savePlaces(a); renderPlaces();
+        toast("삭제했어요.");
+      });
+      li.appendChild(span); li.appendChild(read); li.appendChild(del);
+      ul.appendChild(li);
+    });
+  }
+  $("btn_add_place").addEventListener("click", function () {
+    var v = $("place_input").value.trim();
+    if (!v) { toast("갈 곳을 적어주세요."); return; }
+    var arr = getPlaces(); arr.push(v); savePlaces(arr);
+    $("place_input").value = "";
+    renderPlaces();
+    toast("추가했어요.");
+  });
+  $("place_input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") $("btn_add_place").click();
+  });
+
+  /* ── 한 달 주기 번호 재확인 알림 ── */
+  function hideReminder() { $("reminder").hidden = true; }
+  function checkReminder() {
+    var num = get(LS.taxiNum);
+    if (!num) { hideReminder(); return; }
+    var at = parseInt(get(LS.checkedAt) || "0", 10);
+    if (!at) { set(LS.checkedAt, String(Date.now())); hideReminder(); return; }
+    var days = Math.floor((Date.now() - at) / 86400000);
+    if (days < REMIND_DAYS) { hideReminder(); return; }
+    var label = get(LS.taxiLabel) || "택시";
+    $("reminder_text").innerHTML =
+      "📅 <b>" + escapeHtml(label) + "</b> 번호를 저장한 지 한 달이 넘었어요.<br>" +
+      "택시 콜센터 번호는 해마다 바뀔 수 있어요. 지금 번호가 맞는지 확인해 주세요.";
+    $("reminder").hidden = false;
+    speak("택시 번호를 저장한 지 한 달이 넘었습니다. 번호가 맞는지 확인해 주세요.");
+  }
+  $("btn_reminder_ok").addEventListener("click", function () {
+    set(LS.checkedAt, String(Date.now()));
+    hideReminder();
+    toast("확인했어요. 한 달 뒤 다시 알려드릴게요.");
+  });
+  $("btn_reminder_fix").addEventListener("click", function () {
+    hideReminder();
+    document.getElementById("setup").scrollIntoView({ behavior: "smooth" });
+    $("taxi_number").focus();
+  });
+
+  /* ── 내가 탈 위치 저장 ── */
+  function renderPickup() {
+    var v = get(LS.pickup);
+    var saved = $("saved_pickup");
+    if (v) {
+      saved.hidden = false;
+      saved.innerHTML = "저장됨: <b>" + escapeHtml(v) + "</b>";
+    } else {
+      saved.hidden = true;
+    }
+  }
+  $("btn_save_pickup").addEventListener("click", function () {
+    var v = $("pickup_input").value.trim();
+    if (!v) { toast("내가 탈 위치를 적어주세요."); return; }
+    set(LS.pickup, v);
+    renderPickup();
+    toast("내 위치를 저장했어요.");
+    speak("내 위치를 저장했습니다.");
+  });
+
+  /* ── 기사님께 내 위치 말하기 (음성 토글과 무관하게 항상 읽음) ── */
+  $("btn_speak_loc").addEventListener("click", function () {
+    var v = get(LS.pickup);
+    if (!v) {
+      toast("먼저 ‘내가 탈 위치’를 저장하세요.");
+      document.getElementById("pickup_card").scrollIntoView({ behavior: "smooth" });
+      $("pickup_input").focus();
+      return;
+    }
+    toast("기사님께 위치를 읽어드립니다.");
+    sayNow("제 위치를 말씀드리겠습니다. " + v + ". 다시 한번 말씀드립니다. " + v, 0.8, 1);
+  });
+
+  /* ── 초기 로드 ── */
+  function restoreInputs() {
+    $("taxi_number").value = formatNum(get(LS.taxiNum));
+    $("taxi_label").value = get(LS.taxiLabel);
+    $("guardian_name").value = get(LS.gName);
+    $("guardian_number").value = formatNum(get(LS.gNum));
+    $("pickup_input").value = get(LS.pickup);
+  }
+
+  // 단일 파일(핸드폰용) 버전에서는 데이터가 window.__REGIONS__ 로 주입됨.
+  if (window.__REGIONS__) {
+    REGIONS = window.__REGIONS__;
+    fillProvinces();
+  } else {
+    fetch("data/regions.json")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        REGIONS = data;
+        fillProvinces();
+      })
+      .catch(function () {
+        $("region_note").hidden = false;
+        $("region_note").className = "region-note no";
+        $("region_note").textContent = "지역 목록을 불러오지 못했습니다. 번호는 직접 입력해 저장하세요.";
+      });
+  }
+
+  renderVoiceBtn();
+  renderTaxiState();
+  renderGuardian();
+  renderPlaces();
+  renderPickup();
+  restoreInputs();
+  checkReminder();
+
+  /* 서비스워커 등록 (오프라인) */
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("sw.js").catch(function () {});
+    });
+  }
+})();
+
+</script>
+</body>
+</html>

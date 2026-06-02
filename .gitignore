@@ -1,0 +1,20 @@
+# ===== 보안: 앱 서명키 & 비밀번호 (절대 커밋 금지) =====
+_서명키_백업_절대삭제금지/
+*.keystore
+*.jks
+*.p12
+signing-key-info.txt
+
+# ===== 빌드 산출물 / 패키지 =====
+node_modules/
+android/
+.gradle/
+build/
+dist/
+*.aab
+*.apk
+
+# ===== OS / 편집기 =====
+.DS_Store
+Thumbs.db
+*.log
