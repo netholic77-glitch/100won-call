@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f59e0b" />
   <meta name="referrer" content="no-referrer" />
   <!-- CSP: 동일 출처만 허용. 외부 fetch·script·iframe 차단. tel:/sms: 전화·문자 호출은 허용. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://siqlhoimzvklzzhrqayq.supabase.co wss://siqlhoimzvklzzhrqayq.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'none';" />
   <title>백원콜 — 100원·행복택시 호출</title>
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icon_192.png?v=1" />
@@ -61,6 +61,27 @@
         <span class="speakbtn-label">기사님께 내 위치 말하기</span>
         <span class="speakbtn-sub">전화 연결 후 <b>스피커폰</b>으로 누르면, 위치를 또박또박 읽어 줍니다</span>
       </button>
+    </section>
+
+    <!-- ①-3 실시간 위치 공유 (보호자가 내 이동을 실시간 지도로 봄) -->
+    <section class="block">
+      <button id="btn_ride_start" class="ridebtn" type="button">
+        <span class="ridebtn-emoji">🛰️</span>
+        <span class="ridebtn-label">택시 탔어요 — 위치 공유 시작</span>
+        <span class="ridebtn-sub">보호자가 내 이동을 실시간 지도로 볼 수 있어요</span>
+      </button>
+
+      <div id="ride_on" class="ride-on" hidden>
+        <div class="ride-live">
+          <span class="ride-dot"></span>
+          <span id="ride_status">위치 공유 중… 보호자에게 보기 링크를 보내세요.</span>
+        </div>
+        <div class="ride-btns">
+          <button id="btn_ride_share" class="btn-ride-share" type="button">📨 보호자에게 보기 링크 보내기</button>
+          <button id="btn_ride_stop" class="btn-ride-stop" type="button">■ 공유 끄기 (내렸어요)</button>
+        </div>
+        <p class="ride-note">화면이 꺼지면 위치 전송이 잠시 멈출 수 있어요. 이동 중에는 화면을 켜 두시면 좋아요.</p>
+      </div>
     </section>
 
     <!-- ② 보호자 호출 -->
@@ -146,6 +167,8 @@
 
   <div id="toast" aria-live="polite"></div>
 
+  <script src="vendor/supabase.js"></script>
+  <script src="rt-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

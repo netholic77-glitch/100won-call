@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#b45309" />
+  <title>백원콜 — 실시간 위치 보기</title>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.tile.openstreetmap.org; font-src 'self' data:; connect-src 'self' https://siqlhoimzvklzzhrqayq.supabase.co wss://siqlhoimzvklzzhrqayq.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'none';" />
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="track.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <!-- 상단 상태바 -->
+  <div class="topbar">
+    <div class="title">🚕 백원콜 실시간 위치</div>
+    <div class="conn"><span class="dot" id="conn_dot"></span> <span id="conn_text">연결 중…</span></div>
+  </div>
+
+  <!-- 하단 정보 패널 -->
+  <div class="panel">
+    <div class="status-big" id="status_big">택시 위치를 기다리는 중…</div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="k">남은 거리</div>
+        <div class="v" id="m_dist">—</div>
+      </div>
+      <div class="metric eta">
+        <div class="k">도착 예상</div>
+        <div class="v" id="m_eta">—</div>
+      </div>
+    </div>
+
+    <div class="dest-line" id="dest_line">
+      <span style="opacity:.7">목적지를 정하면 도착 예상시간을 알려드려요</span>
+    </div>
+
+    <div class="btns">
+      <button type="button" class="btn btn-sound" id="btn_sound">🔔 알림·소리 켜기</button>
+      <button type="button" class="btn btn-dest" id="btn_dest">📍 목적지 정하기</button>
+      <a class="btn btn-nav" id="btn_kakao" target="_blank" rel="noopener noreferrer">카카오맵</a>
+      <a class="btn btn-nav" id="btn_naver" rel="noopener noreferrer">네이버지도</a>
+      <a class="btn btn-nav full" id="btn_tmap" rel="noopener noreferrer">티맵으로 보기</a>
+      <a class="btn btn-call full" id="btn_call" style="display:none">📞 어르신께 전화</a>
+    </div>
+  </div>
+
+  <!-- 안내/에러 오버레이 -->
+  <div class="overlay" id="overlay">
+    <div class="box">
+      <div class="emoji" id="ov_emoji">🛰️</div>
+      <h1 id="ov_title">연결 중…</h1>
+      <p id="ov_msg">실시간 위치를 불러오고 있습니다.<br />잠시만 기다려 주세요.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="vendor/supabase.js"></script>
+  <script src="rt-config.js"></script>
+  <script src="track.js"></script>
+</body>
+</html>

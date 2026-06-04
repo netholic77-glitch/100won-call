@@ -1,7 +1,7 @@
 /* 백원콜 Service Worker — 오프라인 캐싱
    전략: 네트워크 우선 → 실패 시 캐시 폴백. same-origin GET만 처리. */
 
-const VERSION = "v1.1";
+const VERSION = "v1.2";
 const CACHE = `baekwon-call-${VERSION}`;
 const ASSETS = [
   "./",
@@ -14,6 +14,17 @@ const ASSETS = [
   "./icon_512.png",
   "./privacy_policy.html",
   "./data/regions.json",
+  // 실시간 위치 공유
+  "./rt-config.js",
+  "./track.html",
+  "./track.css",
+  "./track.js",
+  "./vendor/supabase.js",
+  "./vendor/leaflet/leaflet.js",
+  "./vendor/leaflet/leaflet.css",
+  "./vendor/leaflet/images/marker-icon.png",
+  "./vendor/leaflet/images/marker-icon-2x.png",
+  "./vendor/leaflet/images/marker-shadow.png",
 ];
 
 self.addEventListener("install", (e) => {

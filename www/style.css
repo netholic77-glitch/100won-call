@@ -91,6 +91,44 @@ html, body {
 .speakbtn-label { font-size: 28px; font-weight: 900; margin-top: 8px; }
 .speakbtn-sub { font-size: 15px; font-weight: 600; margin-top: 6px; opacity: .95; line-height: 1.4; }
 
+/* ── 실시간 위치 공유 ── */
+.ridebtn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 100%; color: #fff; background: #0d9488; border: none; border-radius: 22px;
+  padding: 22px 16px; text-align: center; cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,.18); transition: transform .08s;
+}
+.ridebtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.ridebtn.on { background: #0f766e; }
+.ridebtn-emoji { font-size: 46px; line-height: 1; }
+.ridebtn-label { font-size: 26px; font-weight: 900; margin-top: 8px; }
+.ridebtn-sub { font-size: 15px; font-weight: 600; margin-top: 6px; opacity: .95; line-height: 1.4; }
+
+.ride-on {
+  margin-top: 12px; background: #ecfeff; border: 2px solid #5eead4; border-radius: 16px; padding: 14px;
+}
+.ride-live { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; color: #0f766e; line-height: 1.4; }
+.ride-dot {
+  width: 14px; height: 14px; border-radius: 50%; background: #10b981; flex: 0 0 auto;
+  box-shadow: 0 0 0 0 rgba(16,185,129,.7); animation: ridePulse 1.8s infinite;
+}
+@keyframes ridePulse {
+  0% { box-shadow: 0 0 0 0 rgba(16,185,129,.6); }
+  70% { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+.ride-btns { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 12px; }
+.btn-ride-share {
+  font-size: 21px; font-weight: 800; color: #fff; background: var(--blue);
+  border: none; border-radius: 14px; padding: 16px 12px; cursor: pointer;
+}
+.btn-ride-stop {
+  font-size: 18px; font-weight: 800; color: #b91c1c; background: #fff;
+  border: 2px solid #fca5a5; border-radius: 14px; padding: 14px 12px; cursor: pointer;
+}
+.btn-ride-share:active, .btn-ride-stop:active { transform: translateY(2px); }
+.ride-note { font-size: 13.5px; color: #5b6b6a; margin: 10px 2px 0; line-height: 1.45; }
+
 /* 한 달 주기 재확인 알림 */
 .reminder {
   background: #fffbeb; border: 2px solid var(--orange); border-radius: 16px;

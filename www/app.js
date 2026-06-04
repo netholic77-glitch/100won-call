@@ -17,6 +17,7 @@
     voice: "bw_voice",
     checkedAt: "bw_taxi_checked_at",
     pickup: "bw_pickup",
+    trip: "bw_trip",
   };
 
   var REMIND_DAYS = 30;
@@ -363,6 +364,228 @@
     sayNow("제 위치를 말씀드리겠습니다. " + v + ". 다시 한번 말씀드립니다. " + v, 0.8, 1);
   });
 
+  /* ══════════════════════════════════════════════
+     실시간 위치 공유 (어르신 → 보호자)
+     · 어르신 휴대폰 GPS를 약 4초마다 브로드캐스트.
+     · 보호자는 문자로 받은 링크(track.html)에서 실시간으로 봄.
+     · 위치는 메모리 중계(Supabase Broadcast)로만 흐르고 저장 안 됨.
+     ══════════════════════════════════════════════ */
+  var BWRT = window.BWRT;
+  var RIDE = {
+    active: false, token: null, sb: null, ch: null, watchId: null,
+    last: null, dest: null, status: "riding",
+    nearAlerted: false, arriveAlerted: false, startedAt: 0, _lastSent: 0,
+  };
+
+  function rtReady() { return !!(window.supabase && BWRT); }
+
+  function ensureSupabase() {
+    if (RIDE.sb) return RIDE.sb;
+    try {
+      RIDE.sb = window.supabase.createClient(BWRT.SUPABASE_URL, BWRT.SUPABASE_ANON, {
+        auth: { persistSession: false, autoRefreshToken: false },
+        realtime: { params: { eventsPerSecond: 5 } },
+      });
+    } catch (e) { RIDE.sb = null; }
+    return RIDE.sb;
+  }
+
+  function updateRideStatusText(t) { var el = $("ride_status"); if (el) el.textContent = t; }
+
+  function renderRide() {
+    var startBtn = $("btn_ride_start");
+    var on = $("ride_on");
+    if (!startBtn) return;
+    var label = startBtn.querySelector(".ridebtn-label");
+    var sub = startBtn.querySelector(".ridebtn-sub");
+    if (RIDE.active) {
+      startBtn.classList.add("on");
+      if (label) label.textContent = "📍 위치 공유 중";
+      if (sub) sub.textContent = "보호자가 실시간으로 보고 있어요 (눌러서 링크 다시 보내기)";
+      if (on) on.hidden = false;
+    } else {
+      startBtn.classList.remove("on");
+      if (label) label.textContent = "택시 탔어요 — 위치 공유 시작";
+      if (sub) sub.textContent = "보호자가 내 이동을 실시간 지도로 볼 수 있어요";
+      if (on) on.hidden = true;
+    }
+  }
+
+  function persistTrip() {
+    try {
+      set(LS.trip, JSON.stringify({ token: RIDE.token, startedAt: RIDE.startedAt, dest: RIDE.dest }));
+    } catch (e) {}
+  }
+  function clearTrip() { try { localStorage.removeItem(LS.trip); } catch (e) {} }
+
+  function ensureNotifyPermission() {
+    try {
+      if (window.Notification && Notification.permission === "default") Notification.requestPermission();
+    } catch (e) {}
+  }
+
+  function sendState(force) {
+    if (!RIDE.ch || !RIDE.last) return;
+    var now = Date.now();
+    if (!force && RIDE._lastSent && (now - RIDE._lastSent) < BWRT.SEND_INTERVAL_MS) return;
+    RIDE._lastSent = now;
+    var l = RIDE.last;
+    var p = { lat: l.lat, lng: l.lng, acc: l.acc, spd: l.spd, hdg: l.hdg, ts: now, status: RIDE.status };
+    if (RIDE.dest) { p.destLat = RIDE.dest.lat; p.destLng = RIDE.dest.lng; p.destName = RIDE.dest.name; }
+    try { RIDE.ch.send({ type: "broadcast", event: "state", payload: p }); } catch (e) {}
+  }
+
+  function broadcastStatus(s) {
+    if (!RIDE.ch) return;
+    try { RIDE.ch.send({ type: "broadcast", event: "status", payload: { status: s, ts: Date.now() } }); } catch (e) {}
+  }
+
+  function notifyRide(title, body) {
+    toast(title + " — " + body);
+    try { if (navigator.vibrate) navigator.vibrate([220, 120, 220]); } catch (e) {}
+    sayNow(title + ". " + body, 0.95, 1);
+    try {
+      if (window.Notification && Notification.permission === "granted") {
+        new Notification(title, { body: body, lang: "ko-KR", tag: "bw-ride" });
+      }
+    } catch (e) {}
+  }
+
+  function checkArrival() {
+    if (!RIDE.dest || !RIDE.last) return;
+    var d = BWRT.distM(RIDE.last.lat, RIDE.last.lng, RIDE.dest.lat, RIDE.dest.lng) * BWRT.ROAD_FACTOR;
+    var spd = (RIDE.last.spd && RIDE.last.spd > 0.5) ? RIDE.last.spd : BWRT.DEFAULT_SPEED_MPS;
+    var eta = d / spd;
+    if (d <= BWRT.ARRIVE_RADIUS) {
+      if (!RIDE.arriveAlerted) {
+        RIDE.arriveAlerted = true;
+        RIDE.status = "arrived";
+        broadcastStatus("arrived");
+        sendState(true);
+        notifyRide("목적지 도착", "목적지에 도착했어요.");
+        updateRideStatusText("🏁 목적지에 도착했어요.");
+      }
+    } else if (eta <= BWRT.NEAR_SECONDS) {
+      if (!RIDE.nearAlerted) {
+        RIDE.nearAlerted = true;
+        notifyRide("곧 도착", "약 5분 후 목적지에 도착합니다.");
+        updateRideStatusText("⏰ 약 5분 후 목적지 도착 예정");
+      }
+    }
+  }
+
+  function onRidePos(pos) {
+    var c = pos.coords;
+    RIDE.last = { lat: c.latitude, lng: c.longitude, acc: c.accuracy, spd: c.speed, hdg: c.heading };
+    sendState();
+    checkArrival();
+  }
+  function onRideGeoErr() {
+    updateRideStatusText("⚠️ 위치를 확인하지 못했어요. 하늘이 보이는 곳에서 다시 시도해 주세요.");
+  }
+
+  function onGuardianDest(p) {
+    if (!p || typeof p.destLat !== "number" || typeof p.destLng !== "number") return;
+    RIDE.dest = { lat: p.destLat, lng: p.destLng, name: p.destName || "목적지" };
+    RIDE.nearAlerted = false; RIDE.arriveAlerted = false;
+    persistTrip();
+    sendState(true);
+    checkArrival();
+    updateRideStatusText("📍 보호자가 목적지를 정했어요. 도착 5분 전에 알려드릴게요.");
+    toast("보호자가 목적지를 정했어요.");
+  }
+
+  function rideShareLink() {
+    if (!RIDE.token) return;
+    var url = BWRT.trackUrl(RIDE.token);
+    var msg = "[백원콜] 지금 택시로 이동 중입니다.\n아래 링크에서 제 위치를 실시간으로 보실 수 있어요.\n" + url;
+    if (navigator.share) {
+      navigator.share({ title: "백원콜 실시간 위치", text: msg, url: url }).catch(function () {});
+      return;
+    }
+    var gnum = get(LS.gNum);
+    if (gnum) { sendSms(gnum, msg); return; }
+    try {
+      navigator.clipboard.writeText(url);
+      toast("보기 링크를 복사했어요. 보호자에게 붙여넣어 보내세요.");
+    } catch (e) {
+      toast("보기 링크: " + url);
+    }
+  }
+
+  function rideStart(share) {
+    if (RIDE.active) { rideShareLink(); return; }
+    if (!navigator.geolocation) { toast("이 기기는 위치 기능을 쓸 수 없어요."); return; }
+    if (!rtReady()) { toast("실시간 공유를 시작할 수 없어요. 인터넷을 확인해 주세요."); return; }
+    var sb = ensureSupabase();
+    if (!sb) { toast("실시간 공유 연결에 실패했어요. 잠시 후 다시 시도하세요."); return; }
+
+    RIDE.token = RIDE.token || BWRT.genToken();
+    RIDE.status = "riding";
+    RIDE.startedAt = RIDE.startedAt || Date.now();
+    RIDE._lastSent = 0;
+
+    RIDE.ch = sb.channel(BWRT.channelName(RIDE.token), { config: { broadcast: { self: false } } });
+    RIDE.ch.on("broadcast", { event: "hello" }, function () { sendState(true); });
+    RIDE.ch.on("broadcast", { event: "dest" }, function (m) { onGuardianDest(m.payload); });
+    RIDE.ch.subscribe(function (status) {
+      if (status === "SUBSCRIBED") sendState(true);
+    });
+
+    RIDE.watchId = navigator.geolocation.watchPosition(onRidePos, onRideGeoErr, {
+      enableHighAccuracy: true, timeout: 20000, maximumAge: 2000,
+    });
+
+    RIDE.active = true;
+    persistTrip();
+    ensureNotifyPermission();
+    renderRide();
+    toast("위치 공유를 시작했어요.");
+    speak("위치 공유를 시작했습니다. 보호자에게 링크를 보내세요.");
+    if (share !== false) rideShareLink();
+  }
+
+  function rideStop(byUser) {
+    if (RIDE.watchId != null) {
+      try { navigator.geolocation.clearWatch(RIDE.watchId); } catch (e) {}
+      RIDE.watchId = null;
+    }
+    RIDE.status = "ended";
+    broadcastStatus("ended");
+    var ch = RIDE.ch, sb = RIDE.sb;
+    setTimeout(function () { if (ch && sb) { try { sb.removeChannel(ch); } catch (e) {} } }, 700);
+    RIDE.active = false;
+    RIDE.ch = null;
+    RIDE.token = null;
+    RIDE.dest = null;
+    RIDE.startedAt = 0;
+    RIDE.nearAlerted = false; RIDE.arriveAlerted = false;
+    clearTrip();
+    renderRide();
+    if (byUser) { toast("위치 공유를 껐어요."); speak("위치 공유를 껐습니다."); }
+  }
+
+  function resumeTripIfAny() {
+    var raw = get(LS.trip);
+    if (!raw) return;
+    var t;
+    try { t = JSON.parse(raw); } catch (e) { clearTrip(); return; }
+    if (!t || !t.token) { clearTrip(); return; }
+    if (!t.startedAt || (Date.now() - t.startedAt) > 3 * 3600 * 1000) { clearTrip(); return; }
+    if (!rtReady()) return;
+    RIDE.token = t.token;
+    RIDE.startedAt = t.startedAt;
+    if (t.dest) RIDE.dest = t.dest;
+    rideStart(false); // 같은 토큰으로 재구독·재추적(자동 공유는 안 함)
+    toast("이전 위치 공유를 이어서 켰어요. 끄려면 ‘공유 끄기’를 누르세요.");
+  }
+
+  if ($("btn_ride_start")) {
+    $("btn_ride_start").addEventListener("click", function () { rideStart(true); });
+    $("btn_ride_share").addEventListener("click", function () { rideShareLink(); });
+    $("btn_ride_stop").addEventListener("click", function () { rideStop(true); });
+  }
+
   /* ── 초기 로드 ── */
   function restoreInputs() {
     $("taxi_number").value = formatNum(get(LS.taxiNum));
@@ -397,6 +620,8 @@
   renderPickup();
   restoreInputs();
   checkReminder();
+  renderRide();
+  resumeTripIfAny();
 
   /* 서비스워커 등록 (오프라인) */
   if ("serviceWorker" in navigator) {
