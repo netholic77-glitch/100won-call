@@ -499,12 +499,17 @@
     if (!RIDE.token) return;
     var url = BWRT.trackUrl(RIDE.token);
     var msg = "[백원콜] 지금 택시로 이동 중입니다.\n아래 링크에서 제 위치를 실시간으로 보실 수 있어요.\n" + url;
+    // 보호자 번호가 저장돼 있으면 곧바로 문자앱을 열어 한 번에 보냅니다(공유 시트 생략).
+    var gnum = get(LS.gNum);
+    if (gnum) {
+      sendSms(gnum, msg);
+      toast("보호자에게 보낼 문자가 열렸어요. '보내기'만 누르세요.");
+      return;
+    }
     if (navigator.share) {
       navigator.share({ title: "백원콜 실시간 위치", text: msg, url: url }).catch(function () {});
       return;
     }
-    var gnum = get(LS.gNum);
-    if (gnum) { sendSms(gnum, msg); return; }
     try {
       navigator.clipboard.writeText(url);
       toast("보기 링크를 복사했어요. 보호자에게 붙여넣어 보내세요.");

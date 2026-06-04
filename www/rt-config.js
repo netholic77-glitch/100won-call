@@ -34,7 +34,9 @@
       return this.CHANNEL_PREFIX + token;
     },
     trackUrl: function (token) {
-      return this.SITE_URL + "/track.html?t=" + encodeURIComponent(token);
+      // 실제로 서비스되는 주소(origin)를 우선 사용 → 어디에 배포해도 보호자 링크가 맞습니다.
+      var base = (window.location && window.location.origin) || this.SITE_URL;
+      return base + "/track.html?t=" + encodeURIComponent(token);
     },
 
     // 두 좌표 사이 거리(m) — 하버사인 공식
