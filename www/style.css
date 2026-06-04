@@ -16,6 +16,9 @@
 
 html, body {
   margin: 0; padding: 0;
+  width: 100%;
+  overflow-x: hidden;            /* 가로 스크롤·좌우 밀림 방지 */
+  overscroll-behavior-y: none;   /* 위아래 바운스(고무줄) 줄이기 */
   font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
   background: var(--paper);
   color: var(--ink);
@@ -27,15 +30,22 @@ html, body {
 /* ── 인트로 ── */
 .intro {
   position: fixed; inset: 0; z-index: 100;
+  height: 100dvh;                /* 화면 높이에 딱 고정 (모바일 주소창 변화 대응) */
+  overflow: hidden;              /* 인트로는 절대 스크롤되지 않음 */
   background: linear-gradient(160deg, #fde68a 0%, #fbbf24 55%, #f59e0b 100%);
   display: flex; align-items: center; justify-content: center;
+  /* 노치·홈바 안전영역 안쪽에 콘텐츠 배치 */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   transition: opacity .4s ease;
 }
-.intro.hide { opacity: 0; pointer-events: none; }
-.intro-content { text-align: center; padding: 24px; }
-.intro-emoji { font-size: 84px; }
-.intro-title { font-size: 56px; margin: 8px 0 4px; color: #7c2d12; font-weight: 900; }
-.intro-slogan { font-size: 24px; color: #7c2d12; margin: 0 0 32px; font-weight: 700; }
+.intro.hide { opacity: 0; pointer-events: none; visibility: hidden; }
+.intro-content { text-align: center; padding: 24px; width: 100%; max-width: 420px; }
+.intro-emoji { font-size: clamp(60px, 20vw, 84px); }
+.intro-title { font-size: clamp(42px, 15vw, 56px); margin: 8px 0 4px; color: #7c2d12; font-weight: 900; }
+.intro-slogan {
+  font-size: clamp(18px, 6.2vw, 24px); color: #7c2d12; margin: 0 0 32px; font-weight: 700;
+  word-break: keep-all; overflow-wrap: break-word;   /* 한글 단어 안 깨지게 줄바꿈, 가로 넘침 방지 */
+}
 .btn-start {
   font-size: 28px; font-weight: 800; color: #fff; background: var(--green);
   border: none; border-radius: 18px; padding: 20px 48px; cursor: pointer;
@@ -49,7 +59,10 @@ html, body {
   position: sticky; top: 0; z-index: 20;
   background: var(--orange); color: #fff;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 16px; box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  padding: 14px 16px;
+  /* 노치·상태바 영역까지 주황색으로 채워 상단 공백 제거 */
+  padding-top: calc(14px + env(safe-area-inset-top, 0px));
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
 }
 .app-header h1 { font-size: 26px; margin: 0; font-weight: 900; }
 .app-header .sub { font-size: 14px; opacity: .95; }
@@ -60,7 +73,7 @@ html, body {
 .header-voice[aria-pressed="false"] { opacity: .5; text-decoration: line-through; }
 
 /* ── 본문 ── */
-#app { max-width: 560px; margin: 0 auto; padding: 16px 14px 60px; }
+#app { max-width: 560px; margin: 0 auto; padding: 16px 14px calc(60px + env(safe-area-inset-bottom, 0px)); }
 .block { margin-bottom: 16px; }
 
 /* 큰 버튼 */
