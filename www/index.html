@@ -63,7 +63,21 @@
       </button>
     </section>
 
-    <!-- ①-3 실시간 위치 공유 (보호자가 내 이동을 실시간 지도로 봄) -->
+    <!-- ② 보호자 호출 -->
+    <section class="block">
+      <div class="row2">
+        <a id="btn_call_guardian" class="bigbtn bigbtn-guardian" href="#guardian" role="button">
+          <span class="bigbtn-emoji">👨‍👩‍👧</span>
+          <span class="bigbtn-label">보호자<br>전화</span>
+        </a>
+        <a id="btn_sms_location" class="bigbtn bigbtn-loc" href="#guardian" role="button">
+          <span class="bigbtn-emoji">📍</span>
+          <span class="bigbtn-label">내 위치<br>문자보내기</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ①-3 실시간 위치 공유 — 택시 탑승 후 누르는 버튼이므로 맨 아래 배치 -->
     <section class="block">
       <button id="btn_ride_start" class="ridebtn" type="button">
         <span class="ridebtn-emoji">🛰️</span>
@@ -81,20 +95,6 @@
           <button id="btn_ride_stop" class="btn-ride-stop" type="button">■ 공유 끄기 (내렸어요)</button>
         </div>
         <p class="ride-note">화면이 꺼지면 위치 전송이 잠시 멈출 수 있어요. 이동 중에는 화면을 켜 두시면 좋아요.</p>
-      </div>
-    </section>
-
-    <!-- ② 보호자 호출 -->
-    <section class="block">
-      <div class="row2">
-        <a id="btn_call_guardian" class="bigbtn bigbtn-guardian" href="#guardian" role="button">
-          <span class="bigbtn-emoji">👨‍👩‍👧</span>
-          <span class="bigbtn-label">보호자<br>전화</span>
-        </a>
-        <a id="btn_sms_location" class="bigbtn bigbtn-loc" href="#guardian" role="button">
-          <span class="bigbtn-emoji">📍</span>
-          <span class="bigbtn-label">내 위치<br>문자보내기</span>
-        </a>
       </div>
     </section>
 

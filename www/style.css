@@ -65,43 +65,60 @@ html, body {
 
 /* 큰 버튼 */
 .bigbtn {
+  position: relative; overflow: hidden;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-decoration: none; color: #fff; border-radius: 22px;
+  text-decoration: none; color: #fff; border-radius: 26px;
   padding: 26px 16px; text-align: center; cursor: pointer;
-  box-shadow: 0 6px 0 rgba(0,0,0,.18); transition: transform .08s;
+  box-shadow: 0 6px 0 rgba(0,0,0,.18), 0 14px 24px -8px rgba(0,0,0,.30);
+  transition: transform .08s;
 }
-.bigbtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.bigbtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18), 0 8px 16px -8px rgba(0,0,0,.30); }
 .bigbtn-emoji { font-size: 52px; line-height: 1; }
-.bigbtn-label { font-size: 32px; font-weight: 900; margin-top: 8px; }
+.bigbtn-label { font-size: 32px; font-weight: 900; margin-top: 8px; text-shadow: 0 2px 4px rgba(0,0,0,.18); }
 .bigbtn-sub { font-size: 16px; font-weight: 600; margin-top: 6px; opacity: .95; }
 
-.bigbtn-call { background: var(--green); }
-.bigbtn-call.ready { background: var(--green); }
-.bigbtn-call.notready { background: #9ca3af; box-shadow: 0 6px 0 #6b7280; }
+/* 아기자기 ① 이모지를 보송보송한 동그란 거품 속에 */
+.bigbtn-emoji, .speakbtn-emoji, .ridebtn-emoji {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.5em; height: 1.5em; margin-bottom: 2px;
+  background: rgba(255,255,255,.24);
+  border-radius: 50%;
+  box-shadow: inset 0 3px 6px rgba(255,255,255,.45), inset 0 -3px 6px rgba(0,0,0,.10);
+}
+
+.bigbtn-call { background: linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,0) 46%), linear-gradient(160deg, #34d399 0%, #16a34a 72%); }
+.bigbtn-call.ready { background: linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,0) 46%), linear-gradient(160deg, #34d399 0%, #16a34a 72%); }
+.bigbtn-call.notready { background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0) 46%), linear-gradient(160deg, #cbd1d8 0%, #9ca3af 75%); box-shadow: 0 6px 0 #6b7280, 0 14px 24px -8px rgba(107,114,128,.40); }
 
 /* 위치 말하기 버튼 */
 .speakbtn {
+  position: relative; overflow: hidden;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  width: 100%; color: #fff; background: var(--blue); border: none; border-radius: 22px;
+  width: 100%; color: #fff; border: none; border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 46%), linear-gradient(160deg, #60a5fa 0%, #2563eb 78%);
   padding: 22px 16px; text-align: center; cursor: pointer;
-  box-shadow: 0 6px 0 rgba(0,0,0,.18); transition: transform .08s;
+  box-shadow: 0 6px 0 rgba(0,0,0,.18), 0 14px 24px -8px rgba(37,99,235,.45);
+  transition: transform .08s;
 }
-.speakbtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.speakbtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18), 0 8px 16px -8px rgba(37,99,235,.45); }
 .speakbtn-emoji { font-size: 46px; line-height: 1; }
-.speakbtn-label { font-size: 28px; font-weight: 900; margin-top: 8px; }
+.speakbtn-label { font-size: 28px; font-weight: 900; margin-top: 8px; text-shadow: 0 2px 4px rgba(0,0,0,.18); }
 .speakbtn-sub { font-size: 15px; font-weight: 600; margin-top: 6px; opacity: .95; line-height: 1.4; }
 
 /* ── 실시간 위치 공유 ── */
 .ridebtn {
+  position: relative; overflow: hidden;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  width: 100%; color: #fff; background: #0d9488; border: none; border-radius: 22px;
+  width: 100%; color: #fff; border: none; border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 46%), linear-gradient(160deg, #2dd4bf 0%, #0d9488 78%);
   padding: 22px 16px; text-align: center; cursor: pointer;
-  box-shadow: 0 6px 0 rgba(0,0,0,.18); transition: transform .08s;
+  box-shadow: 0 6px 0 rgba(0,0,0,.18), 0 14px 24px -8px rgba(13,148,136,.45);
+  transition: transform .08s;
 }
-.ridebtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
-.ridebtn.on { background: #0f766e; }
+.ridebtn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18), 0 8px 16px -8px rgba(13,148,136,.45); }
+.ridebtn.on { background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,0) 46%), linear-gradient(160deg, #14b8a6 0%, #0f766e 80%); }
 .ridebtn-emoji { font-size: 46px; line-height: 1; }
-.ridebtn-label { font-size: 26px; font-weight: 900; margin-top: 8px; }
+.ridebtn-label { font-size: 26px; font-weight: 900; margin-top: 8px; text-shadow: 0 2px 4px rgba(0,0,0,.18); }
 .ridebtn-sub { font-size: 15px; font-weight: 600; margin-top: 6px; opacity: .95; line-height: 1.4; }
 
 .ride-on {
@@ -142,8 +159,8 @@ html, body {
 .reminder-btns button:active { transform: translateY(3px); box-shadow: none; }
 
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.bigbtn-guardian { background: var(--blue); }
-.bigbtn-loc { background: var(--orange-d); }
+.bigbtn-guardian { background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 46%), linear-gradient(160deg, #60a5fa 0%, #4f46e5 82%); box-shadow: 0 6px 0 rgba(0,0,0,.18), 0 14px 24px -8px rgba(79,70,229,.45); }
+.bigbtn-loc { background: linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,0) 46%), linear-gradient(160deg, #fbbf24 0%, #d97706 78%); box-shadow: 0 6px 0 rgba(0,0,0,.18), 0 14px 24px -8px rgba(217,119,6,.45); }
 .row2 .bigbtn-label { font-size: 24px; }
 .row2 .bigbtn-emoji { font-size: 42px; }
 
