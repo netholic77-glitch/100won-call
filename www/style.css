@@ -18,7 +18,9 @@ html, body {
   margin: 0; padding: 0;
   width: 100%;
   overflow-x: hidden;            /* 가로 스크롤·좌우 밀림 방지 */
-  overscroll-behavior-y: none;   /* 위아래 바운스(고무줄) 줄이기 */
+  overflow-y: auto;              /* Android WebView 세로 스크롤 명시 허용 */
+  -webkit-overflow-scrolling: touch; /* 터치 스크롤 부드럽게 */
+  touch-action: pan-y;           /* 세로 터치 스크롤 허용 */
   font-family: -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
   background: var(--paper);
   color: var(--ink);
