@@ -12,7 +12,7 @@
     SUPABASE_URL: "https://siqlhoimzvklzzhrqayq.supabase.co",
     SUPABASE_ANON:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpcWxob2ltenZrbHp6aHJxYXlxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzODA1MzUsImV4cCI6MjA5NTk1NjUzNX0.BwvIE-FBUM_tfe1obuUtmIl7IzjWcYm_lEGNzJbk_b8",
-    SITE_URL: "https://fabulous-haupia-84bc45.netlify.app",
+    SITE_URL: "https://netholic77-glitch.github.io/100won-call",
 
     CHANNEL_PREFIX: "bw-trip-",
     ROAD_FACTOR: 1.3, // 직선거리 → 실제 도로거리 보정(농어촌 도로 굽이 감안)
