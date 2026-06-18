@@ -59,37 +59,31 @@
       </a>
     </section>
 
-    <!-- ①-2 기사님께 위치 또박또박 말하기 -->
+    <!-- ①-2 내 위치 알리기 (현재 GPS) -->
     <section class="block">
-      <button id="btn_speak_loc" class="speakbtn" type="button">
-        <span class="speakbtn-emoji">📢</span>
-        <span class="speakbtn-label">기사님께 내 위치 말하기</span>
-        <span class="speakbtn-sub">전화 연결 후 <b>스피커폰</b>으로 누르면, 위치를 또박또박 읽어 줍니다</span>
+      <button id="btn_my_loc" class="speakbtn" type="button">
+        <span class="speakbtn-emoji">📍</span>
+        <span class="speakbtn-label">내 위치 알리기</span>
+        <span class="speakbtn-sub">지금 <b>내 위치(GPS)</b>를 찾아 택시에 문자로 보내거나 지도로 보여줍니다</span>
       </button>
     </section>
 
-    <!-- ② 보호자 호출 -->
+    <!-- ② 보호자 전화 / 위치 공유 -->
     <section class="block">
       <div class="row2">
         <a id="btn_call_guardian" class="bigbtn bigbtn-guardian" href="#guardian" role="button">
           <span class="bigbtn-emoji">👨‍👩‍👧</span>
           <span class="bigbtn-label">보호자<br>전화</span>
         </a>
-        <a id="btn_sms_location" class="bigbtn bigbtn-loc" href="#guardian" role="button">
-          <span class="bigbtn-emoji">📍</span>
-          <span class="bigbtn-label">내 위치<br>문자보내기</span>
-        </a>
+        <button id="btn_ride_start" class="bigbtn bigbtn-share" type="button">
+          <span class="bigbtn-emoji">🛰️</span>
+          <span class="bigbtn-label">위치<br>공유</span>
+        </button>
       </div>
     </section>
 
-    <!-- ①-3 실시간 위치 공유 — 택시 탑승 후 누르는 버튼이므로 맨 아래 배치 -->
+    <!-- ①-3 위치 공유 활성 패널 (공유 켜졌을 때만 보임) -->
     <section class="block">
-      <button id="btn_ride_start" class="ridebtn" type="button">
-        <span class="ridebtn-emoji">🛰️</span>
-        <span class="ridebtn-label">택시 탔어요 — 위치 공유 시작</span>
-        <span class="ridebtn-sub">보호자가 내 이동을 실시간 지도로 볼 수 있어요</span>
-      </button>
-
       <div id="ride_on" class="ride-on" hidden>
         <div class="ride-live">
           <span class="ride-dot"></span>
@@ -121,16 +115,6 @@
         <input type="text" id="taxi_label" maxlength="20" placeholder="예) 우리면 행복택시" /></label>
       <button id="btn_save_taxi" class="btn-save" type="button">💾 택시 번호 저장</button>
       <div class="saved-line" id="saved_taxi" hidden></div>
-    </section>
-
-    <!-- ③-2 내가 탈 위치 (기사님께 음성으로 불러줄 주소) -->
-    <section class="card" id="pickup_card">
-      <h2 class="card-title">📍 내가 탈 위치</h2>
-      <p class="card-help">택시를 탈 곳(우리 집)을 적어두면, 위 <b>📢 기사님께 내 위치 말하기</b> 버튼으로 기계 목소리가 또박또박 읽어 줍니다. 말로 설명하기 어려우실 때 도움이 돼요.</p>
-      <label class="field"><span>주소·표시물 (집 위치)</span>
-        <input type="text" id="pickup_input" maxlength="80" placeholder="예) ○○면 ○○리 12-3, 파란 대문 집, 마을회관 옆" /></label>
-      <button id="btn_save_pickup" class="btn-save" type="button">💾 내 위치 저장</button>
-      <div class="saved-line" id="saved_pickup" hidden></div>
     </section>
 
     <!-- ④ 보호자 설정 -->
@@ -169,6 +153,17 @@
       <p><a href="privacy_policy.html">개인정보처리방침</a> · 입력 정보는 내 휴대폰에만 저장됩니다.</p>
     </section>
   </main>
+
+  <!-- 📍 지금 내 위치 (GPS) 결과 화면 -->
+  <div id="loc_overlay" class="loc-overlay" hidden role="dialog" aria-modal="true" aria-label="지금 내 위치 알리기">
+    <div class="loc-box">
+      <div class="loc-head">📍 지금 내 위치</div>
+      <div class="loc-addr" id="loc_addr">위치 확인 중…</div>
+      <button id="loc_sms" class="loc-sms" type="button">📩 택시에 문자로 보내기<span>기사 휴대폰이면 지도 링크가 전송돼요</span></button>
+      <button id="loc_map" class="loc-map" type="button">🗺️ 지도로 내 위치 보기<span>일반전화(안내양)면 지도를 보고 위치를 말씀하세요</span></button>
+      <button id="loc_close" class="loc-close" type="button">✕ 닫기</button>
+    </div>
+  </div>
 
   <div id="toast" aria-live="polite"></div>
 

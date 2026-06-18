@@ -1,7 +1,7 @@
 /* 백원콜 Service Worker — 오프라인 캐싱
    전략: 네트워크 우선 → 실패 시 캐시 폴백. same-origin GET만 처리. */
 
-const VERSION = "v1.4";
+const VERSION = "v1.6";
 const CACHE = `baekwon-call-${VERSION}`;
 const ASSETS = [
   "./",

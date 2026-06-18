@@ -36,14 +36,38 @@
     sayNow(text, 0.95, 1);
   }
   // 음성 토글과 무관하게 항상 또박또박 읽음(위치 안내용). repeat회 반복.
+  // 일부 안드로이드/WebView는 보이스가 늦게 로드돼 첫 호출이 무음이 되므로 미리 로드.
+  var _ttsVoices = [];
+  function loadTtsVoices() {
+    try { _ttsVoices = window.speechSynthesis.getVoices() || []; } catch (e) { _ttsVoices = []; }
+  }
+  if ("speechSynthesis" in window) {
+    loadTtsVoices();
+    try { window.speechSynthesis.addEventListener("voiceschanged", loadTtsVoices); } catch (e) {}
+  }
+  function pickKoVoice() {
+    for (var i = 0; i < _ttsVoices.length; i++) {
+      var lang = (_ttsVoices[i].lang || "").replace("_", "-");
+      if (/ko-?KR/i.test(lang) || /^ko$/i.test(lang)) return _ttsVoices[i];
+    }
+    return null;
+  }
   function sayNow(text, rate, repeat) {
     if (!("speechSynthesis" in window)) return;
     try {
-      window.speechSynthesis.cancel();
+      // cancel()을 무조건 호출하면 일부 크롬/안드로이드에서 새 음성이 무음이 되는
+      // 알려진 버그가 있어, 실제로 재생 중일 때만 취소한다.
+      if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+        window.speechSynthesis.cancel();
+      }
+      var v = pickKoVoice();
       for (var i = 0; i < (repeat || 1); i++) {
         var u = new SpeechSynthesisUtterance(text);
         u.lang = "ko-KR";
+        if (v) u.voice = v;          // 한국어 보이스 명시(있으면) → 무음 방지
         u.rate = rate || 0.95;
+        u.volume = 1;                // 최대 음량(스피커폰으로 기사님께 전달되도록)
+        u.pitch = 1;
         window.speechSynthesis.speak(u);
       }
     } catch (e) {}
@@ -57,6 +81,32 @@
     t.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2600);
+  }
+
+  /* ── 저장(설정) 화면으로 확실하게 데려가기 + 잠깐 강조 ──
+     위 버튼을 눌렀는데 아직 저장한 정보가 없을 때 호출.
+     sticky 헤더에 가리지 않도록 헤더 높이만큼 보정해 스크롤하고,
+     해당 카드를 노랗게 깜빡 강조한 뒤 입력칸에 커서를 둔다. */
+  function scrollToSave(sectionId, inputId) {
+    var el = document.getElementById(sectionId);
+    if (!el) return;
+    var header = document.querySelector(".app-header");
+    var off = (header ? header.offsetHeight : 0) + 12;
+    var y = el.getBoundingClientRect().top + window.pageYOffset - off;
+    if (y < 0) y = 0;
+    try { window.scrollTo({ top: y, behavior: "smooth" }); }
+    catch (e) { window.scrollTo(0, y); }
+    el.classList.remove("flash-target");
+    void el.offsetWidth;            // 리플로우 강제 → 연속 클릭에도 애니메이션 재시작
+    el.classList.add("flash-target");
+    setTimeout(function () { el.classList.remove("flash-target"); }, 1800);
+    if (inputId) {
+      setTimeout(function () {
+        var inp = document.getElementById(inputId);
+        if (!inp) return;
+        try { inp.focus({ preventScroll: true }); } catch (e2) { inp.focus(); }
+      }, 520);
+    }
   }
 
   /* ── 인트로 ── */
@@ -108,16 +158,19 @@
     });
   }
 
+  /* 택시 부르기: 화면 전환·스크롤 없이 곧바로 전화 연결.
+     번호가 없을 때만 설정 화면으로 안내한다. */
   $("btn_call_taxi").addEventListener("click", function (e) {
+    e.preventDefault();
     var num = get(LS.taxiNum);
     if (!num) {
-      e.preventDefault();
       toast("먼저 아래에서 택시 번호를 저장하세요.");
       speak("먼저 우리 동네 택시 번호를 저장하세요.");
       document.getElementById("setup").scrollIntoView({ behavior: "smooth" });
       return;
     }
-    speak("택시에 전화를 겁니다.");
+    // 다른 화면 거치지 않고 곧바로 전화 다이얼러 열기
+    window.location.href = "tel:" + num;
   });
 
   /* ── 지역 선택 ── */
@@ -221,42 +274,14 @@
     if (!get(LS.gNum)) {
       e.preventDefault();
       toast("먼저 보호자 번호를 저장하세요.");
-      document.getElementById("guardian").scrollIntoView({ behavior: "smooth" });
+      speak("먼저 보호자 번호를 저장하세요.");
+      scrollToSave("guardian", "guardian_name");
       return;
     }
     speak("보호자에게 전화를 겁니다.");
   });
 
-  /* ── 내 위치 문자 보내기 ── */
-  $("btn_sms_location").addEventListener("click", function (e) {
-    e.preventDefault();
-    var num = get(LS.gNum);
-    if (!num) {
-      toast("먼저 보호자 번호를 저장하세요.");
-      document.getElementById("guardian").scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    if (!navigator.geolocation) {
-      sendSms(num, "지금 제 위치를 알려드립니다. (위치 확인 불가)");
-      return;
-    }
-    toast("내 위치를 확인하는 중…");
-    speak("내 위치를 확인하고 있습니다.");
-    navigator.geolocation.getCurrentPosition(
-      function (pos) {
-        var la = pos.coords.latitude.toFixed(6);
-        var ln = pos.coords.longitude.toFixed(6);
-        var map = "https://map.kakao.com/link/map/내위치," + la + "," + ln;
-        var body = "[백원콜] 지금 제 위치입니다.\n위도 " + la + ", 경도 " + ln + "\n지도: " + map;
-        sendSms(num, body);
-      },
-      function () {
-        sendSms(num, "[백원콜] 지금 제 위치를 알려드리려 했는데 위치 확인이 안 됩니다. 전화 부탁드려요.");
-        toast("위치 확인 실패 — 문자만 보냅니다.");
-      },
-      { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-    );
-  });
+  /* (보호자에게 1회 위치문자 보내기 기능은 '위치 공유'(실시간)로 대체됨) */
   function sendSms(num, body) {
     var sep = /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent) ? "&" : "?";
     window.location.href = "sms:" + num + sep + "body=" + encodeURIComponent(body);
@@ -331,38 +356,55 @@
     $("taxi_number").focus();
   });
 
-  /* ── 내가 탈 위치 저장 ── */
-  function renderPickup() {
-    var v = get(LS.pickup);
-    var saved = $("saved_pickup");
-    if (v) {
-      saved.hidden = false;
-      saved.innerHTML = "저장됨: <b>" + escapeHtml(v) + "</b>";
-    } else {
-      saved.hidden = true;
-    }
+  /* ── 내 위치 알리기 (현재 GPS) ──
+     누를 때마다 휴대폰 GPS로 "지금 위치"를 잡는다.
+     · 기사 휴대폰: 지도 링크를 문자로 전송 → 기사가 눌러서 위치 확인
+     · 유선 안내양: 지도를 열어 주소를 보고 직접 말씀 (문자는 유선엔 안 감) */
+  var GEO = { last: null };
+  function geoMapLink() {
+    if (!GEO.last) return "";
+    return "https://map.kakao.com/link/map/내위치," + GEO.last.lat + "," + GEO.last.lng;
   }
-  $("btn_save_pickup").addEventListener("click", function () {
-    var v = $("pickup_input").value.trim();
-    if (!v) { toast("내가 탈 위치를 적어주세요."); return; }
-    set(LS.pickup, v);
-    renderPickup();
-    toast("내 위치를 저장했어요.");
-    speak("내 위치를 저장했습니다.");
+  function openGeoLocate() {
+    if (!navigator.geolocation) { toast("이 기기는 위치 기능을 쓸 수 없어요."); return; }
+    GEO.last = null;
+    $("loc_addr").textContent = "📡 위치 확인 중…";
+    $("loc_overlay").hidden = false;
+    document.body.classList.add("loc-open");
+    speak("내 위치를 확인하고 있습니다.");
+    navigator.geolocation.getCurrentPosition(
+      function (pos) {
+        GEO.last = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        $("loc_addr").textContent = "✅ 지금 내 위치를 찾았어요";
+        speak("위치를 찾았습니다. 택시에 문자로 보내거나, 지도를 보고 말씀하세요.");
+      },
+      function () {
+        $("loc_addr").textContent = "위치 확인 실패 — 하늘이 보이는 곳에서 다시 눌러 주세요.";
+        speak("위치 확인에 실패했습니다. 다시 시도해 주세요.");
+      },
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+    );
+  }
+  function closeLocOverlay() {
+    var ov = $("loc_overlay");
+    if (ov) ov.hidden = true;
+    document.body.classList.remove("loc-open");
+  }
+  $("btn_my_loc").addEventListener("click", openGeoLocate);
+  $("loc_sms").addEventListener("click", function () {
+    if (!GEO.last) { toast("위치를 아직 못 찾았어요. 잠시만요."); return; }
+    var tnum = get(LS.taxiNum);
+    if (!tnum) { toast("먼저 택시 번호를 저장하세요."); closeLocOverlay(); scrollToSave("setup", "taxi_number"); return; }
+    var body = "[백원콜] 손님 현재 위치입니다.\n지도: " + geoMapLink();
+    toast("택시에 보낼 문자가 열렸어요. ‘보내기’만 누르세요.");
+    sendSms(tnum, body);
   });
-
-  /* ── 기사님께 내 위치 말하기 (음성 토글과 무관하게 항상 읽음) ── */
-  $("btn_speak_loc").addEventListener("click", function () {
-    var v = get(LS.pickup);
-    if (!v) {
-      toast("먼저 ‘내가 탈 위치’를 저장하세요.");
-      document.getElementById("pickup_card").scrollIntoView({ behavior: "smooth" });
-      $("pickup_input").focus();
-      return;
-    }
-    toast("기사님께 위치를 읽어드립니다.");
-    sayNow("제 위치를 말씀드리겠습니다. " + v + ". 다시 한번 말씀드립니다. " + v, 0.8, 1);
+  $("loc_map").addEventListener("click", function () {
+    var link = geoMapLink();
+    if (!link) { toast("위치를 아직 못 찾았어요."); return; }
+    try { window.open(link, "_blank"); } catch (e) { window.location.href = link; }
   });
+  $("loc_close").addEventListener("click", closeLocOverlay);
 
   /* ══════════════════════════════════════════════
      실시간 위치 공유 (어르신 → 보호자)
@@ -396,17 +438,14 @@
     var startBtn = $("btn_ride_start");
     var on = $("ride_on");
     if (!startBtn) return;
-    var label = startBtn.querySelector(".ridebtn-label");
-    var sub = startBtn.querySelector(".ridebtn-sub");
+    var label = startBtn.querySelector(".bigbtn-label");
     if (RIDE.active) {
       startBtn.classList.add("on");
-      if (label) label.textContent = "📍 위치 공유 중";
-      if (sub) sub.textContent = "보호자가 실시간으로 보고 있어요 (눌러서 링크 다시 보내기)";
+      if (label) label.innerHTML = "공유 중";
       if (on) on.hidden = false;
     } else {
       startBtn.classList.remove("on");
-      if (label) label.textContent = "택시 탔어요 — 위치 공유 시작";
-      if (sub) sub.textContent = "보호자가 내 이동을 실시간 지도로 볼 수 있어요";
+      if (label) label.innerHTML = "위치<br>공유";
       if (on) on.hidden = true;
     }
   }
@@ -597,7 +636,6 @@
     $("taxi_label").value = get(LS.taxiLabel);
     $("guardian_name").value = get(LS.gName);
     $("guardian_number").value = formatNum(get(LS.gNum));
-    $("pickup_input").value = get(LS.pickup);
   }
 
   // 단일 파일(핸드폰용) 버전에서는 데이터가 window.__REGIONS__ 로 주입됨.
@@ -622,7 +660,6 @@
   renderTaxiState();
   renderGuardian();
   renderPlaces();
-  renderPickup();
   restoreInputs();
   checkReminder();
   renderRide();
