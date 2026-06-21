@@ -361,6 +361,18 @@ body.loc-open { overflow: hidden; }
   padding: 16px 12px; cursor: pointer; box-shadow: 0 5px 0 #4b5563;
 }
 .loc-cancel:active { transform: translateY(3px); box-shadow: 0 2px 0 #4b5563; }
+/* ✏️ 확인 화면에서 번호 그 자리 수정 */
+.confirm-edit {
+  width: 100%; font-size: clamp(30px, 8vw, 44px); font-weight: 900; text-align: center;
+  color: var(--ink); background: var(--paper); border: 3px solid var(--orange);
+  border-radius: 16px; padding: 18px 12px; margin-bottom: 16px;
+}
+.confirm-editbtn {
+  width: 100%; font-size: 18px; font-weight: 800; color: var(--orange-d);
+  background: #fff7ed; border: 2px solid var(--orange); border-radius: 14px;
+  padding: 13px 12px; margin-bottom: 14px; cursor: pointer;
+}
+.confirm-editbtn:active { transform: translateY(2px); }
 
 /* 🚕 배차 대기 안내 (안내양 통화 직후) — loc-overlay/loc-box 재사용 */
 .dispatch-msg {

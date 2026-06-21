@@ -179,6 +179,7 @@
     var label = get(LS.taxiLabel);
     $("confirm_head").innerHTML = "🚕 " + escapeHtml(label || "택시") + "에 전화할까요?";
     $("confirm_num").textContent = formatNum(num);
+    setConfirmEditMode(false);                       // 항상 '보기' 모드로 시작
     $("confirm_overlay").hidden = false;
     document.body.classList.add("loc-open");
     speak((label || "택시") + "에 전화할까요? 전화하려면 네 전화할게요 버튼을 누르세요.");
@@ -196,7 +197,42 @@
       window.location.href = "tel:" + num;           // 사용자가 확인 → 실제 전화 연결
     }
   });
+
+  /* 확인 화면에서 번호를 그 자리에서 고치기(보기 ↔ 수정 모드 전환).
+     고친 번호는 저장(LS.taxiNum 갱신)되어 다음에도 그대로 적용된다. */
+  var confirmEditing = false;
+  function setConfirmEditMode(editing) {
+    confirmEditing = editing;
+    $("confirm_num").hidden = editing;
+    $("confirm_edit").hidden = !editing;
+    $("confirm_call").hidden = editing;
+    $("confirm_edit_btn").hidden = editing;
+    $("confirm_save").hidden = !editing;
+    $("confirm_cancel").textContent = editing ? "↩️ 그만두기" : "✕ 아니요 (취소)";
+    if (editing) {
+      var inp = $("confirm_edit");
+      inp.value = formatNum(get(LS.taxiNum));
+      try { inp.focus(); } catch (e) {}
+    }
+  }
+  $("confirm_edit_btn").addEventListener("click", function () {
+    setConfirmEditMode(true);
+    speak("번호를 고친 뒤, 저장하고 전화를 누르세요.");
+  });
+  $("confirm_save").addEventListener("click", function () {
+    var num = onlyDigits($("confirm_edit").value);
+    if (num.length < 3) { toast("전화번호를 바르게 입력하세요."); speak("전화번호를 바르게 입력하세요."); return; }
+    set(LS.taxiNum, num);
+    set(LS.checkedAt, String(Date.now()));           // 번호를 바꿨으니 재확인 알림 시점도 초기화
+    renderTaxiState();
+    $("taxi_number").value = formatNum(num);          // 설정 화면 입력칸도 같이 맞춤
+    closeCallConfirm();
+    toast("번호를 저장했어요.");
+    pendingDispatch = true;
+    window.location.href = "tel:" + num;
+  });
   $("confirm_cancel").addEventListener("click", function () {
+    if (confirmEditing) { setConfirmEditMode(false); return; }   // 수정 그만두고 보기 모드로
     closeCallConfirm();
     speak("전화를 취소했습니다.");
   });
