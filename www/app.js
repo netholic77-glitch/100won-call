@@ -191,12 +191,71 @@
   $("confirm_call").addEventListener("click", function () {
     var num = get(LS.taxiNum);
     closeCallConfirm();
-    if (num) window.location.href = "tel:" + num;   // 사용자가 확인 → 실제 전화 연결
+    if (num) {
+      pendingDispatch = true;                        // 통화를 마치고 돌아오면 '배차 대기' 안내
+      window.location.href = "tel:" + num;           // 사용자가 확인 → 실제 전화 연결
+    }
   });
   $("confirm_cancel").addEventListener("click", function () {
     closeCallConfirm();
     speak("전화를 취소했습니다.");
   });
+
+  /* ── 배차 대기 안내 (안내양 통화 직후) ──
+     안내양에게 전화를 건 뒤 앱으로 돌아오면 한 화면으로 안내한다.
+       · '곧 기사님이 전화해요. 모르는 번호여도 받으세요' (큰 글씨·음성)
+       · 내 위치 미리 찾아두기(기사님이 위치를 물어볼 때)
+       · 가는 곳(자주 가는 곳) 보여주기·들려주기
+     걸려온 전화·문자는 앱이 자동으로 읽을 수 없어, '받기 전 준비'를 돕는다. */
+  var pendingDispatch = false;
+
+  function renderDispatchDest() {
+    var box = $("dispatch_dest");
+    if (!box) return;
+    var arr = getPlaces();
+    if (!arr.length) { box.hidden = true; box.innerHTML = ""; return; }
+    box.hidden = false;
+    box.innerHTML = '<div class="dispatch-dest-title">📒 가는 곳 — 기사님께 보여주거나 들려주세요</div>';
+    arr.forEach(function (txt) {
+      var row = document.createElement("div");
+      row.className = "dispatch-dest-row";
+      var span = document.createElement("span");
+      span.className = "dispatch-dest-text"; span.textContent = txt;
+      var read = document.createElement("button");
+      read.className = "dispatch-dest-read"; read.type = "button"; read.textContent = "🔊";
+      read.setAttribute("aria-label", txt + " 읽기");
+      read.addEventListener("click", function () { sayNow("목적지, " + txt, 0.95, 1); });
+      row.appendChild(span); row.appendChild(read);
+      box.appendChild(row);
+    });
+  }
+  function openDispatchCard() {
+    renderDispatchDest();
+    $("dispatch_overlay").hidden = false;
+    document.body.classList.add("loc-open");
+    speak("곧 택시 기사님이 전화를 드릴 거예요. 모르는 번호여도 꼭 받으세요.");
+  }
+  function closeDispatchCard() {
+    var ov = $("dispatch_overlay");
+    if (ov) ov.hidden = true;
+    document.body.classList.remove("loc-open");
+  }
+  // 안내양에게 전화를 건 뒤 앱으로 돌아온 순간을 잡아 안내 카드를 띄운다.
+  function onReturnFromCall() {
+    if (!pendingDispatch) return;
+    pendingDispatch = false;
+    openDispatchCard();
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") onReturnFromCall();
+  });
+  window.addEventListener("focus", onReturnFromCall);
+
+  $("dispatch_loc").addEventListener("click", function () {
+    closeDispatchCard();
+    openGeoLocate();                                 // 기존 'GPS 내 위치' 화면을 그대로 사용
+  });
+  $("dispatch_close").addEventListener("click", closeDispatchCard);
 
   /* ── 지역 선택 ── */
   function fillProvinces() {

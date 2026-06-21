@@ -361,3 +361,26 @@ body.loc-open { overflow: hidden; }
   padding: 16px 12px; cursor: pointer; box-shadow: 0 5px 0 #4b5563;
 }
 .loc-cancel:active { transform: translateY(3px); box-shadow: 0 2px 0 #4b5563; }
+
+/* 🚕 배차 대기 안내 (안내양 통화 직후) — loc-overlay/loc-box 재사용 */
+.dispatch-msg {
+  font-size: 23px; font-weight: 800; color: var(--ink);
+  line-height: 1.5; word-break: keep-all; margin-bottom: 18px;
+}
+.dispatch-msg b { color: var(--orange-d); }
+.dispatch-warn {
+  display: block; margin-top: 10px; font-size: 27px; font-weight: 900; color: #b91c1c;
+}
+.dispatch-dest {
+  text-align: left; margin: 0 0 16px;
+  background: var(--paper); border: 2px solid var(--line); border-radius: 14px;
+  padding: 12px 12px 6px;
+}
+.dispatch-dest-title { font-size: 15px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+.dispatch-dest-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.dispatch-dest-text { flex: 1; font-size: 20px; font-weight: 800; color: var(--ink); word-break: keep-all; }
+.dispatch-dest-read {
+  flex: none; font-size: 20px; font-weight: 800; color: var(--blue);
+  background: #dbeafe; border: none; border-radius: 12px; padding: 10px 14px; cursor: pointer;
+}
+.dispatch-dest-read:active { transform: translateY(2px); }

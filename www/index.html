@@ -175,6 +175,20 @@
     </div>
   </div>
 
+  <!-- 🚕 배차 대기 안내 (안내양 통화 직후 자동: 기사님 전화를 잘 받도록 준비) -->
+  <div id="dispatch_overlay" class="loc-overlay" hidden role="dialog" aria-modal="true" aria-label="택시 배차 대기 안내">
+    <div class="loc-box">
+      <div class="loc-head">🚕 택시를 부르는 중이에요</div>
+      <div class="dispatch-msg">
+        곧 <b>택시 기사님</b>이 전화를 드릴 거예요.<br>
+        <b class="dispatch-warn">모르는 번호여도 꼭 받으세요!</b>
+      </div>
+      <button id="dispatch_loc" class="loc-map" type="button">📍 내 위치 미리 찾아두기<span>기사님이 “어디세요?” 물으면 보고 말하세요</span></button>
+      <div id="dispatch_dest" class="dispatch-dest" hidden></div>
+      <button id="dispatch_close" class="loc-cancel" type="button">✕ 닫기</button>
+    </div>
+  </div>
+
   <div id="toast" aria-live="polite"></div>
 
   <script src="vendor/supabase.js"></script>
