@@ -165,6 +165,16 @@
     </div>
   </div>
 
+  <!-- 🚕 택시에 전화 걸기 전 확인 화면 (실수로 눌러도 바로 전화되지 않도록) -->
+  <div id="confirm_overlay" class="loc-overlay" hidden role="dialog" aria-modal="true" aria-label="택시에 전화 걸기 확인">
+    <div class="loc-box">
+      <div class="loc-head" id="confirm_head">🚕 택시에 전화할까요?</div>
+      <div class="loc-addr" id="confirm_num"></div>
+      <button id="confirm_call" class="loc-call" type="button">📞 네, 전화할게요</button>
+      <button id="confirm_cancel" class="loc-cancel" type="button">✕ 아니요 (취소)</button>
+    </div>
+  </div>
+
   <div id="toast" aria-live="polite"></div>
 
   <script src="vendor/supabase.js"></script>

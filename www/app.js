@@ -158,7 +158,8 @@
     });
   }
 
-  /* 택시 부르기: 화면 전환·스크롤 없이 곧바로 전화 연결.
+  /* 택시 부르기: 곧바로 전화하지 않고, 전화 걸기 전 확인 화면을 먼저 띄운다.
+     (실수로 큰 버튼을 눌러도 바로 전화가 걸리지 않도록.)
      번호가 없을 때만 설정 화면으로 안내한다. */
   $("btn_call_taxi").addEventListener("click", function (e) {
     e.preventDefault();
@@ -169,8 +170,32 @@
       document.getElementById("setup").scrollIntoView({ behavior: "smooth" });
       return;
     }
-    // 다른 화면 거치지 않고 곧바로 전화 다이얼러 열기
-    window.location.href = "tel:" + num;
+    openCallConfirm(num);
+  });
+
+  /* 전화 걸기 전 확인 오버레이.
+     '네, 전화할게요'를 눌러야 비로소 tel: 다이얼러가 열린다. */
+  function openCallConfirm(num) {
+    var label = get(LS.taxiLabel);
+    $("confirm_head").innerHTML = "🚕 " + escapeHtml(label || "택시") + "에 전화할까요?";
+    $("confirm_num").textContent = formatNum(num);
+    $("confirm_overlay").hidden = false;
+    document.body.classList.add("loc-open");
+    speak((label || "택시") + "에 전화할까요? 전화하려면 네 전화할게요 버튼을 누르세요.");
+  }
+  function closeCallConfirm() {
+    var ov = $("confirm_overlay");
+    if (ov) ov.hidden = true;
+    document.body.classList.remove("loc-open");
+  }
+  $("confirm_call").addEventListener("click", function () {
+    var num = get(LS.taxiNum);
+    closeCallConfirm();
+    if (num) window.location.href = "tel:" + num;   // 사용자가 확인 → 실제 전화 연결
+  });
+  $("confirm_cancel").addEventListener("click", function () {
+    closeCallConfirm();
+    speak("전화를 취소했습니다.");
   });
 
   /* ── 지역 선택 ── */
