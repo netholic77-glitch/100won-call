@@ -138,7 +138,11 @@
     var saved = $("saved_taxi");
     if (num) {
       btn.classList.add("ready"); btn.classList.remove("notready");
-      btn.setAttribute("href", "tel:" + num);
+      // ⚠️ 모바일(TWA)에서 <a href="tel:">는 탭하는 순간 다이얼러가 바로 열려
+      // 클릭 핸들러의 preventDefault()를 건너뛴다 → 확인창이 안 뜸.
+      // 따라서 버튼은 항상 안전한 내부 앵커(#setup)로 두고, 실제 전화는
+      // 확인창의 '네, 전화할게요'에서만 건다. (tel: href 절대 금지)
+      btn.setAttribute("href", "#setup");
       sub.textContent = (label ? label + " · " : "") + formatNum(num);
       saved.hidden = false;
       saved.innerHTML = "저장됨: <b>" + escapeHtml(label || "내 택시") + "</b> " + formatNum(num);
