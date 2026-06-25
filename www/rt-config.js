@@ -34,9 +34,16 @@
       return this.CHANNEL_PREFIX + token;
     },
     trackUrl: function (token) {
-      // 실제로 서비스되는 주소(origin)를 우선 사용 → 어디에 배포해도 보호자 링크가 맞습니다.
-      var base = (window.location && window.location.origin) || this.SITE_URL;
-      return base + "/track.html?t=" + encodeURIComponent(token);
+      // track.html은 이 페이지(index.html)와 같은 폴더에 있다.
+      // 현재 문서 URL을 기준으로 상대경로를 해석해야 GitHub Pages처럼
+      // 서브경로(/100won-call/)에 배포돼도 보호자 링크가 정확히 만들어진다.
+      // ⚠️ origin만 쓰면 서브경로가 빠져 https://○○.github.io/track.html → 404.
+      var q = "track.html?t=" + encodeURIComponent(token);
+      try {
+        return new URL(q, window.location.href).href;
+      } catch (e) {
+        return this.SITE_URL + "/" + q;
+      }
     },
 
     // 두 좌표 사이 거리(m) — 하버사인 공식
