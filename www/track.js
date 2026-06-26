@@ -91,10 +91,22 @@
   });
   var ch = sb.channel(B.channelName(token), { config: { broadcast: { self: false } } });
 
+  // 연결 지연 감지: 일정 시간 안에 채널이 붙지 않으면(백엔드가 잠자거나 인터넷이
+  // 불안정한 경우) 무한 "연결 중…" 대신 보호자가 무엇을 하면 되는지 안내한다.
+  var connectedOnce = false;
+  var slowTimer = setTimeout(function () {
+    if (connectedOnce) return;
+    showOverlay("📡", "연결이 조금 늦어지고 있어요",
+      "자동으로 계속 다시 연결하고 있어요. 이 화면이 한참 그대로면 어르신께 ‘위치 공유’를 다시 한 번 눌러 달라고 하시거나, 이 페이지를 새로고침 해 주세요.");
+    setConn("연결을 다시 시도하는 중…", true);
+  }, 15000);
+
   ch.on("broadcast", { event: "state" }, function (m) { onState(m.payload); });
   ch.on("broadcast", { event: "status" }, function (m) { onStatus(m.payload); });
   ch.subscribe(function (status) {
     if (status === "SUBSCRIBED") {
+      connectedOnce = true;
+      clearTimeout(slowTimer);
       setConn("연결됨 · 어르신 위치를 기다리는 중", false);
       ovTitle.textContent = "연결되었습니다";
       ovMsg.innerHTML = "어르신이 위치 공유를 시작하면<br />이 화면에 실시간으로 나타납니다.";
