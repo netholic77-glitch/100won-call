@@ -538,7 +538,7 @@
      ══════════════════════════════════════════════ */
   var BWRT = window.BWRT;
   var RIDE = {
-    active: false, token: null, sb: null, ch: null, watchId: null,
+    active: false, token: null, sb: null, ch: null, watchId: null, hbId: null,
     last: null, dest: null, status: "riding",
     nearAlerted: false, arriveAlerted: false, startedAt: 0, _lastSent: 0,
   };
@@ -704,6 +704,12 @@
       enableHighAccuracy: true, timeout: 20000, maximumAge: 2000,
     });
 
+    // 정지 중이거나 watchPosition이 뜸하게 올 때도(예: 가만히 있을 때) 보호자 화면이
+    // "끊김"으로 보이지 않도록, 또 늦게 접속한 보호자도 한 주기 안에 위치를 받도록
+    // 마지막 위치를 주기적으로 다시 보낸다. (sendState의 throttle을 그대로 통과)
+    if (RIDE.hbId) clearInterval(RIDE.hbId);
+    RIDE.hbId = setInterval(function () { sendState(); }, BWRT.SEND_INTERVAL_MS);
+
     RIDE.active = true;
     persistTrip();
     ensureNotifyPermission();
@@ -718,6 +724,7 @@
       try { navigator.geolocation.clearWatch(RIDE.watchId); } catch (e) {}
       RIDE.watchId = null;
     }
+    if (RIDE.hbId) { clearInterval(RIDE.hbId); RIDE.hbId = null; }
     RIDE.status = "ended";
     broadcastStatus("ended");
     var ch = RIDE.ch, sb = RIDE.sb;
@@ -732,6 +739,21 @@
     renderRide();
     if (byUser) { toast("위치 공유를 껐어요."); speak("위치 공유를 껐습니다."); }
   }
+
+  // 어르신이 문자 전송 등으로 앱을 잠깐 떠났다가 돌아온 순간, 백그라운드 동안
+  // 멈췄을 수 있는 위치 전송을 즉시 되살린다(보호자의 "연결은 됐는데 안 보임" 방지).
+  function rideKick() {
+    if (!RIDE.active || !RIDE.ch) return;
+    sendState(true);
+    try {
+      navigator.geolocation.getCurrentPosition(onRidePos, function () {},
+        { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 });
+    } catch (e) {}
+  }
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") rideKick();
+  });
+  window.addEventListener("focus", rideKick);
 
   function resumeTripIfAny() {
     var raw = get(LS.trip);

@@ -46,6 +46,9 @@
   var nearAlerted = false, arriveAlerted = false;
   var audioCtx = null;
   var toastTimer = null;
+  var gotState = false;        // 어르신 위치를 한 번이라도 받았는가
+  var helloTimer = null;       // 첫 위치가 올 때까지 hello 재요청
+  var waitingTimer = null;     // 연결됐는데 한참 위치가 없을 때 안내
 
   if (!token) {
     showOverlay("🔗", "링크가 올바르지 않습니다", "어르신이 보내주신 링크를 다시 한 번 눌러 주세요.");
@@ -110,8 +113,9 @@
       setConn("연결됨 · 어르신 위치를 기다리는 중", false);
       ovTitle.textContent = "연결되었습니다";
       ovMsg.innerHTML = "어르신이 위치 공유를 시작하면<br />이 화면에 실시간으로 나타납니다.";
-      // 이미 운행 중인 어르신에게 현재 위치를 즉시 보내달라고 요청
-      try { ch.send({ type: "broadcast", event: "hello", payload: { ts: Date.now() } }); } catch (e) {}
+      // 이미 운행 중인 어르신에게 현재 위치를 즉시 보내달라고 요청한다.
+      // 첫 신호가 올 때까지 hello를 반복해, 어르신 앱이 잠시 뒤에 깨어나도 놓치지 않는다.
+      startHello();
     } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
       setConn("연결 오류 — 자동으로 다시 시도합니다", true);
     } else if (status === "CLOSED") {
@@ -119,9 +123,34 @@
     }
   });
 
+  // ── 위치 요청 핸드셰이크 ──────────────────────
+  function sendHello() {
+    try { ch.send({ type: "broadcast", event: "hello", payload: { ts: Date.now() } }); } catch (e) {}
+  }
+  function startHello() {
+    sendHello();
+    if (helloTimer) clearInterval(helloTimer);
+    helloTimer = setInterval(function () {
+      if (gotState) { clearInterval(helloTimer); helloTimer = null; return; }
+      sendHello();
+    }, 3000);
+    if (waitingTimer) clearTimeout(waitingTimer);
+    waitingTimer = setTimeout(showWaitingHelp, 12000);
+  }
+  function showWaitingHelp() {
+    if (gotState) return;
+    showOverlay("📍", "어르신 위치를 기다리고 있어요",
+      "연결은 되었어요. 위치가 보이려면 어르신 휴대폰에서 백원콜 앱이 화면에 떠 있어야 해요. 어르신께 백원콜 앱을 다시 열고 ‘위치 공유’가 켜져 있는지 봐 달라고 부탁해 주세요.");
+  }
+
   // ── 수신 처리 ─────────────────────────────────
   function onState(p) {
     if (!p || !isNum(p.lat) || !isNum(p.lng)) return;
+    if (!gotState) {
+      gotState = true;
+      if (helloTimer) { clearInterval(helloTimer); helloTimer = null; }
+      if (waitingTimer) { clearTimeout(waitingTimer); waitingTimer = null; }
+    }
     lastTs = Date.now();
     rider = { lat: p.lat, lng: p.lng, acc: p.acc, spd: p.spd, hdg: p.hdg, ts: p.ts };
     if (p.name) riderName = String(p.name);
