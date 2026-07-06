@@ -159,8 +159,9 @@
     <div class="loc-box">
       <div class="loc-head">📍 지금 내 위치</div>
       <div class="loc-addr" id="loc_addr">위치 확인 중…</div>
-      <button id="loc_sms" class="loc-sms" type="button">📩 택시에 문자로 보내기<span>기사 휴대폰이면 지도 링크가 전송돼요</span></button>
-      <button id="loc_map" class="loc-map" type="button">🗺️ 지도로 내 위치 보기<span>일반전화(안내양)면 지도를 보고 위치를 말씀하세요</span></button>
+      <button id="loc_sms" class="loc-sms" type="button" disabled aria-disabled="true">📩 택시에 문자로 보내기<span>기사 휴대폰이면 지도 링크가 전송돼요</span></button>
+      <button id="loc_map" class="loc-map" type="button" disabled aria-disabled="true">🗺️ 지도로 내 위치 보기<span>일반전화(안내양)면 지도를 보고 위치를 말씀하세요</span></button>
+      <button id="loc_retry" class="loc-retry" type="button" hidden>🔄 위치 다시 찾기</button>
       <button id="loc_close" class="loc-close" type="button">✕ 닫기</button>
     </div>
   </div>

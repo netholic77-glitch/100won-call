@@ -489,22 +489,39 @@
     if (!GEO.last) return "";
     return "https://map.kakao.com/link/map/내위치," + GEO.last.lat + "," + GEO.last.lng;
   }
+  // 위치 확인 상태에 따라 문자/지도 버튼을 켜고 끈다.
+  // GPS를 아직 못 잡았으면(대기/실패) 버튼을 흐리게 비활성화해,
+  // 위치 없이 잘못된 문자·지도가 열리지 않도록 막는다.
+  function setLocButtons(state) {
+    var sms = $("loc_sms"), map = $("loc_map"), retry = $("loc_retry");
+    var enable = (state === "ready");
+    [sms, map].forEach(function (b) {
+      if (!b) return;
+      b.disabled = !enable;
+      b.setAttribute("aria-disabled", enable ? "false" : "true");
+    });
+    if (retry) retry.hidden = (state !== "fail");
+  }
   function openGeoLocate() {
     if (!navigator.geolocation) { toast("이 기기는 위치 기능을 쓸 수 없어요."); return; }
     GEO.last = null;
     $("loc_addr").textContent = "📡 위치 확인 중…";
     $("loc_overlay").hidden = false;
     document.body.classList.add("loc-open");
+    setLocButtons("pending");
     speak("내 위치를 확인하고 있습니다.");
     navigator.geolocation.getCurrentPosition(
       function (pos) {
         GEO.last = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         $("loc_addr").textContent = "✅ 지금 내 위치를 찾았어요";
+        setLocButtons("ready");
         speak("위치를 찾았습니다. 택시에 문자로 보내거나, 지도를 보고 말씀하세요.");
       },
       function () {
-        $("loc_addr").textContent = "위치 확인 실패 — 하늘이 보이는 곳에서 다시 눌러 주세요.";
-        speak("위치 확인에 실패했습니다. 다시 시도해 주세요.");
+        GEO.last = null;
+        $("loc_addr").textContent = "❌ 위치 확인 실패 — 하늘이 보이는 곳에서 ‘위치 다시 찾기’를 눌러 주세요.";
+        setLocButtons("fail");
+        speak("위치 확인에 실패했습니다. 위치 다시 찾기 버튼을 눌러 주세요.");
       },
       { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
     );
@@ -528,6 +545,8 @@
     if (!link) { toast("위치를 아직 못 찾았어요."); return; }
     try { window.open(link, "_blank"); } catch (e) { window.location.href = link; }
   });
+  var _locRetry = $("loc_retry");
+  if (_locRetry) _locRetry.addEventListener("click", openGeoLocate);
   $("loc_close").addEventListener("click", closeLocOverlay);
 
   /* ══════════════════════════════════════════════

@@ -345,6 +345,20 @@ body { overflow-x: clip; overscroll-behavior-y: none; }
 .loc-replay:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--green-d); }
 .loc-close { background: var(--muted); box-shadow: 0 5px 0 #4b5563; }
 .loc-close:active { transform: translateY(3px); box-shadow: 0 2px 0 #4b5563; }
+/* 위치를 아직 못 잡았을 때: 문자/지도 버튼을 흐리게 잠가 잘못 누르지 못하게 함 */
+.loc-sms:disabled, .loc-map:disabled {
+  opacity: .4; filter: grayscale(.5); cursor: not-allowed;
+  box-shadow: 0 5px 0 rgba(0,0,0,.15);
+}
+.loc-sms:disabled:active, .loc-map:disabled:active { transform: none; }
+.loc-retry {
+  width: 100%; font-size: 20px; font-weight: 800; color: #fff; border: none;
+  border-radius: 16px; padding: 18px 6px; margin-top: 4px; cursor: pointer;
+  background: var(--green); box-shadow: 0 5px 0 var(--green-d);
+  white-space: nowrap; word-break: keep-all;
+}
+.loc-retry:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--green-d); }
+.loc-retry[hidden] { display: none; }
 body.loc-open { overflow: hidden; }
 
 /* 🚕 택시 전화 걸기 전 확인 오버레이 (loc-overlay/loc-box 스타일 재사용) */
