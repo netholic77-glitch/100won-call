@@ -1,6 +1,6 @@
 {
   "appId": "kr.baekwoncall.app",
-  "appName": "백원콜",
+  "appName": "어르신 택시콜",
   "webDir": "www",
   "server": {
     "androidScheme": "https"

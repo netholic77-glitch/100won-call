@@ -1,4 +1,4 @@
-/* 백원콜 — 보호자 실시간 추적 페이지 로직
+/* 어르신 택시콜 — 보호자 실시간 추적 페이지 로직
    ─────────────────────────────────────────────
    · URL의 ?t=토큰 으로 한 번의 운행 채널(bw-trip-<토큰>)에 접속합니다.
    · 어르신 휴대폰이 약 4초마다 보내는 위치를 받아 지도에 표시하고,
@@ -140,7 +140,7 @@
   function showWaitingHelp() {
     if (gotState) return;
     showOverlay("📍", "어르신 위치를 기다리고 있어요",
-      "연결은 되었어요. 위치가 보이려면 어르신 휴대폰에서 백원콜 앱이 화면에 떠 있어야 해요. 어르신께 백원콜 앱을 다시 열고 ‘위치 공유’가 켜져 있는지 봐 달라고 부탁해 주세요.");
+      "연결은 되었어요. 위치가 보이려면 어르신 휴대폰에서 어르신 택시콜 앱이 화면에 떠 있어야 해요. 어르신께 어르신 택시콜 앱을 다시 열고 ‘위치 공유’가 켜져 있는지 봐 달라고 부탁해 주세요.");
   }
 
   // ── 수신 처리 ─────────────────────────────────
@@ -310,18 +310,18 @@
     if (!rider) return;
     var rlat = rider.lat, rlng = rider.lng;
     if (dest) {
-      btnKakao.href = "https://map.kakao.com/link/from/백원택시," + rlat + "," + rlng +
+      btnKakao.href = "https://map.kakao.com/link/from/택시," + rlat + "," + rlng +
         "/to/" + encodeURIComponent(dest.name) + "," + dest.lat + "," + dest.lng;
       btnNaver.href = "nmap://route/car?slat=" + rlat + "&slng=" + rlng +
-        "&sname=" + encodeURIComponent("백원택시") +
+        "&sname=" + encodeURIComponent("택시") +
         "&dlat=" + dest.lat + "&dlng=" + dest.lng +
         "&dname=" + encodeURIComponent(dest.name) + "&appname=kr.baekwoncall.app";
       btnTmap.href = "tmap://route?goalname=" + encodeURIComponent(dest.name) +
         "&goalx=" + dest.lng + "&goaly=" + dest.lat;
     } else {
-      btnKakao.href = "https://map.kakao.com/link/map/백원택시," + rlat + "," + rlng;
+      btnKakao.href = "https://map.kakao.com/link/map/택시," + rlat + "," + rlng;
       btnNaver.href = "nmap://place?lat=" + rlat + "&lng=" + rlng +
-        "&name=" + encodeURIComponent("백원택시 위치") + "&appname=kr.baekwoncall.app";
+        "&name=" + encodeURIComponent("택시 위치") + "&appname=kr.baekwoncall.app";
       btnTmap.href = "tmap://viewmap?x=" + rlng + "&y=" + rlat;
     }
   }
