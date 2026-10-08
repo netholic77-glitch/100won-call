@@ -1,6 +1,6 @@
 {
-  "name": "어르신 택시콜 — 큰 글씨 호출 도우미",
-  "short_name": "택시콜",
+  "name": "큰글씨 한번콜 — 개인 제작 호출 도우미",
+  "short_name": "한번콜",
   "description": "우리 동네 콜택시를 큰 글씨·음성안내로 한 번에 부르는 고령자 친화 전화 호출 도우미",
   "start_url": "/100won-call/index.html",
   "scope": "/100won-call/",

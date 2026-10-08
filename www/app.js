@@ -1,4 +1,4 @@
-/* 어르신 택시콜 — 큰 글씨 호출 도우미
+/* 큰글씨 한번콜 — 개인 제작 호출 도우미
    - 100% 기기 내부 동작. 외부 서버 전송 없음. 저장은 localStorage.
    - 전화: tel: / 문자: sms: / 위치: navigator.geolocation
    - 음성 안내: Web Speech API (speechSynthesis, ko-KR)
@@ -113,7 +113,7 @@
   $("btn_start").addEventListener("click", function () {
     $("intro").classList.add("hide");
     setTimeout(function () { $("intro").style.display = "none"; }, 400);
-    speak("어르신 택시콜입니다. 택시 부르기 버튼을 누르세요.");
+    speak("큰글씨 한번콜입니다. 택시 부르기 버튼을 누르세요.");
   });
 
   /* ── 음성 토글 ── */
@@ -536,7 +536,7 @@
     if (!GEO.last) { toast("위치를 아직 못 찾았어요. 잠시만요."); return; }
     var tnum = get(LS.taxiNum);
     if (!tnum) { toast("먼저 택시 번호를 저장하세요."); closeLocOverlay(); scrollToSave("setup", "taxi_number"); return; }
-    var body = "[어르신 택시콜] 손님 현재 위치입니다.\n지도: " + geoMapLink();
+    var body = "[큰글씨 한번콜] 손님 현재 위치입니다.\n지도: " + geoMapLink();
     toast("택시에 보낼 문자가 열렸어요. ‘보내기’만 누르세요.");
     sendSms(tnum, body);
   });
@@ -680,7 +680,7 @@
   function rideShareLink() {
     if (!RIDE.token) return;
     var url = BWRT.trackUrl(RIDE.token);
-    var msg = "[어르신 택시콜] 지금 택시로 이동 중입니다.\n아래 링크에서 제 위치를 실시간으로 보실 수 있어요.\n" + url;
+    var msg = "[큰글씨 한번콜] 지금 택시로 이동 중입니다.\n아래 링크에서 제 위치를 실시간으로 보실 수 있어요.\n" + url;
     // 보호자 번호가 저장돼 있으면 곧바로 문자앱을 열어 한 번에 보냅니다(공유 시트 생략).
     var gnum = get(LS.gNum);
     if (gnum) {
@@ -689,7 +689,7 @@
       return;
     }
     if (navigator.share) {
-      navigator.share({ title: "어르신 택시콜 실시간 위치", text: msg, url: url }).catch(function () {});
+      navigator.share({ title: "큰글씨 한번콜 실시간 위치", text: msg, url: url }).catch(function () {});
       return;
     }
     try {

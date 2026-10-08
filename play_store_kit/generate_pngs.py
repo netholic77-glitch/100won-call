@@ -74,11 +74,11 @@ def make_icon(size, path):
         d.line([(0, y), (size, y)], fill=(r, g, b))
     cx, cy = size * 0.5, size * 0.56
     draw_taxi(d, cx, cy, size * 0.30)
-    # 100원 동전
+    # 전화 말풍선 (정부 제도 연상 '100' 동전 대신)
     r = size * 0.13
-    coin_cx, coin_cy = size * 0.74, size * 0.27
-    d.ellipse([coin_cx - r, coin_cy - r, coin_cx + r, coin_cy + r], fill=COIN, outline=BROWN, width=max(3, int(size * 0.012)))
-    d.text((coin_cx, coin_cy), "100", font=font(int(size * 0.09)), fill=BROWN, anchor="mm")
+    bx, by = size * 0.74, size * 0.27
+    d.ellipse([bx - r, by - r, bx + r, by + r], fill=WHITE, outline=BROWN, width=max(3, int(size * 0.012)))
+    d.text((bx, by), "콜", font=font(int(size * 0.12)), fill=BROWN, anchor="mm")
     img.save(path)
     print("saved", path)
 
@@ -94,13 +94,14 @@ def make_feature(path):
         d.line([(0, y), (W, y)], fill=(r, g, b))
     # 택시 (오른쪽)
     draw_taxi(d, 800, 270, 150)
-    # 100원 동전
-    d.ellipse([905, 60, 1005, 160], fill=COIN, outline=BROWN, width=6)
-    d.text((955, 110), "100", font=font(44), fill=BROWN, anchor="mm")
+    # 전화 말풍선
+    d.ellipse([905, 60, 1005, 160], fill=WHITE, outline=BROWN, width=6)
+    d.text((955, 110), "콜", font=font(52), fill=BROWN, anchor="mm")
     # 텍스트 (왼쪽)
-    d.text((70, 150), "백원콜", font=font(110), fill=WHITE, anchor="lm")
-    d.text((74, 250), "100원·행복택시 한 번에 부르기", font=font(40), fill=CREAM, anchor="lm")
+    d.text((70, 150), "큰글씨 한번콜", font=font(84), fill=WHITE, anchor="lm")
+    d.text((74, 250), "큰 버튼 한 번으로 전화", font=font(36), fill=CREAM, anchor="lm")
     d.text((74, 320), "큰 글씨 · 음성안내 · 보호자 위치문자", font=font(30), fill=CREAM, anchor="lm")
+    d.text((74, 440), "개인 제작 앱 · 정부·지자체와 무관", font=font(22, bold=False), fill=CREAM, anchor="lm")
     img.save(path)
     print("saved", path)
 

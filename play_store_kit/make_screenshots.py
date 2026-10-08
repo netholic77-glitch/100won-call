@@ -11,7 +11,7 @@ URL = "http://localhost:8533/index.html"
 
 DEMO = {
     "bw_taxi_num": "0312345678",
-    "bw_taxi_label": "우리면 행복택시",
+    "bw_taxi_label": "우리 동네 콜택시",
     "bw_guardian_name": "큰딸",
     "bw_guardian_num": "01012345678",
     "bw_places": '["군청 앞 ○○내과","면사무소","장날 ○○장터"]',
@@ -36,7 +36,7 @@ def shot(page, name, scroll_to_selector=None, scroll_y=0):
 
 
 with sync_playwright() as p:
-    b = p.chromium.launch()
+    b = p.chromium.launch(channel="chrome")
     ctx = b.new_context(viewport={"width": VW, "height": VH},
                         device_scale_factor=SCALE, locale="ko-KR")
     page = ctx.new_page()
@@ -64,7 +64,7 @@ with sync_playwright() as p:
     shot(page, "03_taxi.png", "#setup")
 
     # 04 내가 탈 위치 (기사님께 음성으로 읽어줄 주소)
-    shot(page, "04_pickup.png", "#pickup_card")
+    # 04 내가 탈 위치 카드는 앱에서 제거됨 (건너뜀)
 
     # 05 보호자
     shot(page, "05_guardian.png", "#guardian")
@@ -72,7 +72,7 @@ with sync_playwright() as p:
     # 06 자주 가는 곳
     shot(page, "06_places.png", "#places")
 
-    # 07 정부 안내전화 (맨 아래)
+    # 07 번호 문의처 (맨 아래)
     page.evaluate("window.scrollTo(0,document.body.scrollHeight)")
     page.wait_for_timeout(400)
     shot(page, "07_info.png")
